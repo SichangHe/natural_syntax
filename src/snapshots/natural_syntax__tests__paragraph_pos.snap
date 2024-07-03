@@ -1,0 +1,141 @@
+---
+source: src/tests.rs
+expression: parsed
+---
+[
+    Tagged {
+        word: "Extracts",
+        score: 0.6755955815315247,
+        tag: VBZ,
+    },
+    Tagged {
+        word: "Part",
+        score: 0.981443464756012,
+        tag: NN,
+    },
+    Tagged {
+        word: "of",
+        score: 0.9994645118713379,
+        tag: IN,
+    },
+    Tagged {
+        word: "Speech",
+        score: 0.901760458946228,
+        tag: NN,
+    },
+    Tagged {
+        word: "tags",
+        score: 0.9251910448074341,
+        tag: NNS,
+    },
+    Tagged {
+        word: "(",
+        score: 0.6684778928756714,
+        tag: IN,
+    },
+    Tagged {
+        word: "Noun",
+        score: 0.7121400833129883,
+        tag: NN,
+    },
+    Tagged {
+        word: ",",
+        score: 1.0,
+        tag: Punctuation,
+    },
+    Tagged {
+        word: "Verb",
+        score: 0.7978910803794861,
+        tag: NN,
+    },
+    Tagged {
+        word: ",",
+        score: 1.0,
+        tag: Punctuation,
+    },
+    Tagged {
+        word: "Adjective",
+        score: 0.4665752947330475,
+        tag: JJ,
+    },
+    Tagged {
+        word: "…",
+        score: 0.3111630380153656,
+        tag: CD,
+    },
+    Tagged {
+        word: ")",
+        score: 1.0,
+        tag: Punctuation,
+    },
+    Tagged {
+        word: "from",
+        score: 0.9936538934707642,
+        tag: IN,
+    },
+    Tagged {
+        word: "text",
+        score: 0.7634343504905701,
+        tag: NN,
+    },
+    Tagged {
+        word: ".",
+        score: 0.5759484171867371,
+        tag: WDT,
+    },
+    Tagged {
+        word: "A",
+        score: 0.9207555055618286,
+        tag: DT,
+    },
+    Tagged {
+        word: "lightweight",
+        score: 0.9598090648651123,
+        tag: JJ,
+    },
+    Tagged {
+        word: "pretrained",
+        score: 0.08781879998518731,
+        tag: JJ,
+    },
+    Tagged {
+        word: "model",
+        score: 0.9868523478507996,
+        tag: NN,
+    },
+    Tagged {
+        word: "using",
+        score: 0.9161001443862915,
+        tag: VBG,
+    },
+    Tagged {
+        word: "MobileBERT",
+        score: 0.5579198574476152,
+        tag: NNP,
+    },
+    Tagged {
+        word: "is",
+        score: 0.9957782030105591,
+        tag: VBZ,
+    },
+    Tagged {
+        word: "available",
+        score: 0.6678481698036194,
+        tag: JJ,
+    },
+    Tagged {
+        word: "for",
+        score: 0.9994867444038391,
+        tag: IN,
+    },
+    Tagged {
+        word: "English",
+        score: 0.8796942830085754,
+        tag: NNP,
+    },
+    Tagged {
+        word: ".",
+        score: 1.0,
+        tag: Punctuation,
+    },
+]

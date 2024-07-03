@@ -1,0 +1,21 @@
+[package]
+edition = "2021"
+license = "MIT"
+name = "natural_syntax"
+version = "0.1.0"
+
+[dependencies]
+rust-bert = { version = "0.22", features = ["download-libtorch"] }
+thiserror = "1.0.61"
+
+# Compile the ML library with optimizations.
+[profile.test.package]
+rust-bert = { opt-level = 3 }
+
+[dev-dependencies]
+insta = "1.39"
+
+# Compile snapshot testing libraries with optimizations.
+[profile.dev.package]
+insta = { opt-level = 3 }
+similar = { opt-level = 3 }
