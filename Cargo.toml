@@ -1,22 +1,26 @@
 [package]
+description = "Natural language syntax highlighting."
 edition = "2021"
 license = "MIT"
 name = "natural_syntax"
-version = "0.1.0"
+version = "0.0.0"
+publish = false
 
 [dependencies]
-rust-bert = { version = "0.22", features = ["download-libtorch"] }
-serde = { version = "1", features = ["derive"] }
+rust-bert = "0.22"
+serde = { version = "1", features = ["derive"], optional = true}
 thiserror = "1.0.61"
-
-# Compile the ML library with optimizations.
-[profile.test.package]
-rust-bert = { opt-level = 3 }
 
 [dev-dependencies]
 insta = "1.39"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
 # Compile snapshot testing libraries with optimizations.
 [profile.dev.package]
 insta = { opt-level = 3 }
 similar = { opt-level = 3 }
+
+[features]
+default = ["rust-bert-download-libtorch", "serde"]
+rust-bert-download-libtorch = ["rust-bert/download-libtorch"]
