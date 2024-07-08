@@ -1,18 +1,16 @@
-[package]
+[workspace]
+members = ["."]
+
+[workspace.package]
 description = "Natural language syntax highlighting."
 edition = "2021"
 license = "MIT"
-name = "natural_syntax"
-version = "0.0.0"
-publish = false
+readme = "README.md"
+repository = "https://github.com/SichangHe/natural_syntax"
 
-[dependencies]
-rust-bert = "0.22"
-serde = { version = "1", features = ["derive"], optional = true}
-thiserror = "1.0.61"
-
-[dev-dependencies]
+[workspace.dependencies]
 insta = "1.39"
+natural_syntax = { version = "0.0", path = "." }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
@@ -20,6 +18,26 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 [profile.dev.package]
 insta = { opt-level = 3 }
 similar = { opt-level = 3 }
+
+[package]
+description.workspace = true
+edition.workspace = true
+license.workspace = true
+name = "natural_syntax"
+readme.workspace = true
+repository.workspace = true
+version = "0.0.0"
+# publish = false
+
+[dependencies]
+rust-bert = "0.22"
+serde = { version = "1", features = ["derive"], optional = true }
+thiserror = "1.0.61"
+
+[dev-dependencies]
+insta.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
 
 [features]
 default = ["rust-bert-download-libtorch", "serde"]

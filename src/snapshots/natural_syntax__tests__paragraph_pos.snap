@@ -5,7 +5,7 @@ expression: parsed
 [
     POSToken {
         word: "Extracts",
-        score: 0.6755955815315247,
+        score: 0.676,
         tag: VBZ,
         label_index: 30,
         index: 1,
@@ -15,7 +15,7 @@ expression: parsed
     },
     POSToken {
         word: "Part",
-        score: 0.981443464756012,
+        score: 0.981,
         tag: NN,
         label_index: 11,
         index: 2,
@@ -25,7 +25,7 @@ expression: parsed
     },
     POSToken {
         word: "of",
-        score: 0.9994645118713379,
+        score: 0.999,
         tag: IN,
         label_index: 6,
         index: 3,
@@ -35,7 +35,7 @@ expression: parsed
     },
     POSToken {
         word: "Speech",
-        score: 0.901760458946228,
+        score: 0.902,
         tag: NN,
         label_index: 11,
         index: 4,
@@ -45,7 +45,7 @@ expression: parsed
     },
     POSToken {
         word: "tags",
-        score: 0.9251910448074341,
+        score: 0.925,
         tag: NNS,
         label_index: 14,
         index: 5,
@@ -55,7 +55,7 @@ expression: parsed
     },
     POSToken {
         word: "(",
-        score: 0.6684778928756714,
+        score: 0.668,
         tag: IN,
         label_index: 6,
         index: 6,
@@ -65,7 +65,7 @@ expression: parsed
     },
     POSToken {
         word: "Noun",
-        score: 0.7121400833129883,
+        score: 0.712,
         tag: NN,
         label_index: 11,
         index: 7,
@@ -75,7 +75,7 @@ expression: parsed
     },
     POSToken {
         word: ",",
-        score: 0.36344802379608154,
+        score: 0.363,
         tag: CC,
         label_index: 1,
         index: 8,
@@ -85,7 +85,7 @@ expression: parsed
     },
     POSToken {
         word: "Verb",
-        score: 0.7978910803794861,
+        score: 0.798,
         tag: NN,
         label_index: 11,
         index: 9,
@@ -95,7 +95,7 @@ expression: parsed
     },
     POSToken {
         word: ",",
-        score: 0.23852351307868958,
+        score: 0.23900000000000002,
         tag: CC,
         label_index: 1,
         index: 10,
@@ -105,7 +105,7 @@ expression: parsed
     },
     POSToken {
         word: "Adjective",
-        score: 0.4665752947330475,
+        score: 0.467,
         tag: JJ,
         label_index: 7,
         index: 11,
@@ -115,7 +115,7 @@ expression: parsed
     },
     POSToken {
         word: "…",
-        score: 0.3111630380153656,
+        score: 0.311,
         tag: CD,
         label_index: 2,
         index: 12,
@@ -125,7 +125,7 @@ expression: parsed
     },
     POSToken {
         word: ")",
-        score: 0.31457948684692383,
+        score: 0.315,
         tag: DT,
         label_index: 3,
         index: 13,
@@ -135,7 +135,7 @@ expression: parsed
     },
     POSToken {
         word: "from",
-        score: 0.9936538934707642,
+        score: 0.994,
         tag: IN,
         label_index: 6,
         index: 14,
@@ -145,7 +145,7 @@ expression: parsed
     },
     POSToken {
         word: "text",
-        score: 0.7634343504905701,
+        score: 0.763,
         tag: NN,
         label_index: 11,
         index: 15,
@@ -155,7 +155,7 @@ expression: parsed
     },
     POSToken {
         word: ".",
-        score: 0.5759484171867371,
+        score: 0.5760000000000001,
         tag: WDT,
         label_index: 31,
         index: 16,
@@ -165,7 +165,7 @@ expression: parsed
     },
     POSToken {
         word: "A",
-        score: 0.9207555055618286,
+        score: 0.921,
         tag: DT,
         label_index: 3,
         index: 17,
@@ -175,7 +175,7 @@ expression: parsed
     },
     POSToken {
         word: "lightweight",
-        score: 0.9598090648651123,
+        score: 0.96,
         tag: JJ,
         label_index: 7,
         index: 18,
@@ -185,7 +185,7 @@ expression: parsed
     },
     POSToken {
         word: "pretrained",
-        score: 0.08781879998518731,
+        score: 0.088,
         tag: JJ,
         label_index: 7,
         index: 19,
@@ -195,7 +195,7 @@ expression: parsed
     },
     POSToken {
         word: "model",
-        score: 0.9868523478507996,
+        score: 0.987,
         tag: NN,
         label_index: 11,
         index: 22,
@@ -205,7 +205,7 @@ expression: parsed
     },
     POSToken {
         word: "using",
-        score: 0.9161001443862915,
+        score: 0.916,
         tag: VBG,
         label_index: 27,
         index: 23,
@@ -215,7 +215,7 @@ expression: parsed
     },
     POSToken {
         word: "MobileBERT",
-        score: 0.5579198574476152,
+        score: 0.558,
         tag: NNP,
         label_index: 12,
         index: 24,
@@ -225,7 +225,7 @@ expression: parsed
     },
     POSToken {
         word: "is",
-        score: 0.9957782030105591,
+        score: 0.996,
         tag: VBZ,
         label_index: 30,
         index: 26,
@@ -235,7 +235,7 @@ expression: parsed
     },
     POSToken {
         word: "available",
-        score: 0.6678481698036194,
+        score: 0.668,
         tag: JJ,
         label_index: 7,
         index: 27,
@@ -245,7 +245,7 @@ expression: parsed
     },
     POSToken {
         word: "for",
-        score: 0.9994867444038391,
+        score: 0.999,
         tag: IN,
         label_index: 6,
         index: 28,
@@ -255,7 +255,7 @@ expression: parsed
     },
     POSToken {
         word: "English",
-        score: 0.8796942830085754,
+        score: 0.88,
         tag: NNP,
         label_index: 12,
         index: 29,

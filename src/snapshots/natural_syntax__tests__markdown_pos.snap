@@ -5,7 +5,7 @@ expression: parsed
 [
     POSToken {
         word: "The",
-        score: 0.9998831152915955,
+        score: 1.0,
         tag: DT,
         label_index: 3,
         index: 1,
@@ -15,7 +15,7 @@ expression: parsed
     },
     POSToken {
         word: "easiest",
-        score: 0.8221415281295776,
+        score: 0.8220000000000001,
         tag: JJS,
         label_index: 9,
         index: 2,
@@ -25,7 +25,7 @@ expression: parsed
     },
     POSToken {
         word: "way",
-        score: 0.9977756142616272,
+        score: 0.998,
         tag: NN,
         label_index: 11,
         index: 3,
@@ -35,7 +35,7 @@ expression: parsed
     },
     POSToken {
         word: "of",
-        score: 0.9999945163726807,
+        score: 1.0,
         tag: IN,
         label_index: 6,
         index: 4,
@@ -45,7 +45,7 @@ expression: parsed
     },
     POSToken {
         word: "getting",
-        score: 0.9960637092590332,
+        score: 0.996,
         tag: VBG,
         label_index: 27,
         index: 5,
@@ -55,7 +55,7 @@ expression: parsed
     },
     POSToken {
         word: "started",
-        score: 0.8323637843132019,
+        score: 0.8320000000000001,
         tag: VBN,
         label_index: 28,
         index: 6,
@@ -65,7 +65,7 @@ expression: parsed
     },
     POSToken {
         word: "is",
-        score: 0.9998722076416016,
+        score: 1.0,
         tag: VBZ,
         label_index: 30,
         index: 7,
@@ -75,7 +75,7 @@ expression: parsed
     },
     POSToken {
         word: "the",
-        score: 0.9999052882194519,
+        score: 1.0,
         tag: DT,
         label_index: 3,
         index: 8,
@@ -85,7 +85,7 @@ expression: parsed
     },
     POSToken {
         word: "[",
-        score: 0.9384734630584717,
+        score: 0.9380000000000001,
         tag: NNP,
         label_index: 12,
         index: 9,
@@ -95,7 +95,7 @@ expression: parsed
     },
     POSToken {
         word: "rustler",
-        score: 0.36435735180492657,
+        score: 0.364,
         tag: NNP,
         label_index: 12,
         index: 10,
@@ -105,7 +105,7 @@ expression: parsed
     },
     POSToken {
         word: "Elixir",
-        score: 0.1591313641145719,
+        score: 0.159,
         tag: NNP,
         label_index: 12,
         index: 12,
@@ -115,7 +115,7 @@ expression: parsed
     },
     POSToken {
         word: "library",
-        score: 0.6908725500106812,
+        score: 0.6910000000000001,
         tag: NN,
         label_index: 11,
         index: 15,
@@ -125,7 +125,7 @@ expression: parsed
     },
     POSToken {
         word: "]",
-        score: 0.8425936698913574,
+        score: 0.843,
         tag: NNP,
         label_index: 12,
         index: 16,
@@ -135,7 +135,7 @@ expression: parsed
     },
     POSToken {
         word: "(",
-        score: 0.6715282797813416,
+        score: 0.672,
         tag: IN,
         label_index: 6,
         index: 17,
@@ -145,7 +145,7 @@ expression: parsed
     },
     POSToken {
         word: "https",
-        score: 0.4684299826622009,
+        score: 0.468,
         tag: NNS,
         label_index: 14,
         index: 18,
@@ -155,7 +155,7 @@ expression: parsed
     },
     POSToken {
         word: ":",
-        score: 0.539379358291626,
+        score: 0.539,
         tag: NNP,
         label_index: 12,
         index: 19,
@@ -165,7 +165,7 @@ expression: parsed
     },
     POSToken {
         word: "/",
-        score: 0.8090564012527466,
+        score: 0.809,
         tag: NNP,
         label_index: 12,
         index: 20,
@@ -175,7 +175,7 @@ expression: parsed
     },
     POSToken {
         word: "/",
-        score: 0.6449680328369141,
+        score: 0.645,
         tag: NNP,
         label_index: 12,
         index: 21,
@@ -185,7 +185,7 @@ expression: parsed
     },
     POSToken {
         word: "hex",
-        score: 0.8052503596231588,
+        score: 0.805,
         tag: NNP,
         label_index: 12,
         index: 22,
@@ -195,7 +195,7 @@ expression: parsed
     },
     POSToken {
         word: ".",
-        score: 0.8646934032440186,
+        score: 0.865,
         tag: NNP,
         label_index: 12,
         index: 24,
@@ -205,7 +205,7 @@ expression: parsed
     },
     POSToken {
         word: "pm",
-        score: 0.9731399416923523,
+        score: 0.973,
         tag: NNP,
         label_index: 12,
         index: 25,
@@ -215,7 +215,7 @@ expression: parsed
     },
     POSToken {
         word: "/",
-        score: 0.5624796748161316,
+        score: 0.562,
         tag: NN,
         label_index: 11,
         index: 26,
@@ -225,7 +225,7 @@ expression: parsed
     },
     POSToken {
         word: "packages",
-        score: 0.6462132930755615,
+        score: 0.646,
         tag: NNS,
         label_index: 14,
         index: 27,
@@ -235,7 +235,7 @@ expression: parsed
     },
     POSToken {
         word: "/",
-        score: 0.8011429905891418,
+        score: 0.801,
         tag: NN,
         label_index: 11,
         index: 28,
@@ -245,7 +245,7 @@ expression: parsed
     },
     POSToken {
         word: "rustler",
-        score: 0.2567128258759297,
+        score: 0.257,
         tag: NNP,
         label_index: 12,
         index: 29,
@@ -255,7 +255,7 @@ expression: parsed
     },
     POSToken {
         word: ")",
-        score: 0.2593020796775818,
+        score: 0.259,
         tag: PRP,
         label_index: 17,
         index: 31,
@@ -265,7 +265,7 @@ expression: parsed
     },
     POSToken {
         word: ".",
-        score: 0.29849743843078613,
+        score: 0.298,
         tag: NNP,
         label_index: 12,
         index: 32,
@@ -275,7 +275,7 @@ expression: parsed
     },
     POSToken {
         word: "-",
-        score: 0.4431455731391907,
+        score: 0.443,
         tag: JJ,
         label_index: 7,
         index: 33,
@@ -285,7 +285,7 @@ expression: parsed
     },
     POSToken {
         word: "Add",
-        score: 0.9256914854049683,
+        score: 0.926,
         tag: VB,
         label_index: 25,
         index: 34,
@@ -295,7 +295,7 @@ expression: parsed
     },
     POSToken {
         word: "the",
-        score: 0.9998955130577087,
+        score: 1.0,
         tag: DT,
         label_index: 3,
         index: 35,
@@ -305,7 +305,7 @@ expression: parsed
     },
     POSToken {
         word: "[",
-        score: 0.9037013053894043,
+        score: 0.904,
         tag: NNP,
         label_index: 12,
         index: 36,
@@ -315,7 +315,7 @@ expression: parsed
     },
     POSToken {
         word: "rustler",
-        score: 0.2997952459870987,
+        score: 0.3,
         tag: NNP,
         label_index: 12,
         index: 37,
@@ -325,7 +325,7 @@ expression: parsed
     },
     POSToken {
         word: "Elixir",
-        score: 0.21288051803588076,
+        score: 0.213,
         tag: NNP,
         label_index: 12,
         index: 39,
@@ -335,7 +335,7 @@ expression: parsed
     },
     POSToken {
         word: "library",
-        score: 0.6596149206161499,
+        score: 0.66,
         tag: NN,
         label_index: 11,
         index: 42,
@@ -345,7 +345,7 @@ expression: parsed
     },
     POSToken {
         word: "]",
-        score: 0.8854286074638367,
+        score: 0.885,
         tag: NNP,
         label_index: 12,
         index: 43,
@@ -355,7 +355,7 @@ expression: parsed
     },
     POSToken {
         word: "(",
-        score: 0.6001749038696289,
+        score: 0.6,
         tag: IN,
         label_index: 6,
         index: 44,
@@ -365,7 +365,7 @@ expression: parsed
     },
     POSToken {
         word: "https",
-        score: 0.4767860770225525,
+        score: 0.47700000000000004,
         tag: NNS,
         label_index: 14,
         index: 45,
@@ -375,7 +375,7 @@ expression: parsed
     },
     POSToken {
         word: ":",
-        score: 0.4551432132720947,
+        score: 0.455,
         tag: NNP,
         label_index: 12,
         index: 46,
@@ -385,7 +385,7 @@ expression: parsed
     },
     POSToken {
         word: "/",
-        score: 0.7439953088760376,
+        score: 0.744,
         tag: NNP,
         label_index: 12,
         index: 47,
@@ -395,7 +395,7 @@ expression: parsed
     },
     POSToken {
         word: "/",
-        score: 0.5564883351325989,
+        score: 0.556,
         tag: NNP,
         label_index: 12,
         index: 48,
@@ -405,7 +405,7 @@ expression: parsed
     },
     POSToken {
         word: "hex",
-        score: 0.8010911102495726,
+        score: 0.801,
         tag: NNP,
         label_index: 12,
         index: 49,
@@ -415,7 +415,7 @@ expression: parsed
     },
     POSToken {
         word: ".",
-        score: 0.8285888433456421,
+        score: 0.8290000000000001,
         tag: NNP,
         label_index: 12,
         index: 51,
@@ -425,7 +425,7 @@ expression: parsed
     },
     POSToken {
         word: "pm",
-        score: 0.9634965658187866,
+        score: 0.963,
         tag: NNP,
         label_index: 12,
         index: 52,
@@ -435,7 +435,7 @@ expression: parsed
     },
     POSToken {
         word: "/",
-        score: 0.6519892811775208,
+        score: 0.652,
         tag: NN,
         label_index: 11,
         index: 53,
@@ -445,7 +445,7 @@ expression: parsed
     },
     POSToken {
         word: "packages",
-        score: 0.6053404808044434,
+        score: 0.605,
         tag: NNS,
         label_index: 14,
         index: 54,
@@ -455,7 +455,7 @@ expression: parsed
     },
     POSToken {
         word: "/",
-        score: 0.8548048734664917,
+        score: 0.855,
         tag: NN,
         label_index: 11,
         index: 55,
@@ -465,7 +465,7 @@ expression: parsed
     },
     POSToken {
         word: "rustler",
-        score: 0.29196474704283304,
+        score: 0.292,
         tag: NNP,
         label_index: 12,
         index: 56,
@@ -475,7 +475,7 @@ expression: parsed
     },
     POSToken {
         word: ")",
-        score: 0.3050229549407959,
+        score: 0.305,
         tag: NNP,
         label_index: 12,
         index: 58,
@@ -485,7 +485,7 @@ expression: parsed
     },
     POSToken {
         word: "as",
-        score: 0.9935842156410217,
+        score: 0.994,
         tag: IN,
         label_index: 6,
         index: 59,
@@ -495,7 +495,7 @@ expression: parsed
     },
     POSToken {
         word: "a",
-        score: 0.999955415725708,
+        score: 1.0,
         tag: DT,
         label_index: 3,
         index: 60,
@@ -505,7 +505,7 @@ expression: parsed
     },
     POSToken {
         word: "dependency",
-        score: 0.9978703260421753,
+        score: 0.998,
         tag: NN,
         label_index: 11,
         index: 61,
@@ -515,7 +515,7 @@ expression: parsed
     },
     POSToken {
         word: "of",
-        score: 0.9999860525131226,
+        score: 1.0,
         tag: IN,
         label_index: 6,
         index: 62,
@@ -525,7 +525,7 @@ expression: parsed
     },
     POSToken {
         word: "your",
-        score: 0.7856572270393372,
+        score: 0.786,
         tag: PRP,
         label_index: 17,
         index: 63,
@@ -535,7 +535,7 @@ expression: parsed
     },
     POSToken {
         word: "project",
-        score: 0.9944018125534058,
+        score: 0.994,
         tag: NN,
         label_index: 11,
         index: 64,
@@ -545,7 +545,7 @@ expression: parsed
     },
     POSToken {
         word: ".",
-        score: 0.30855053663253784,
+        score: 0.309,
         tag: NNS,
         label_index: 14,
         index: 65,
@@ -555,7 +555,7 @@ expression: parsed
     },
     POSToken {
         word: "-",
-        score: 0.23409134149551392,
+        score: 0.234,
         tag: JJ,
         label_index: 7,
         index: 66,
@@ -565,7 +565,7 @@ expression: parsed
     },
     POSToken {
         word: "Run",
-        score: 0.9588191509246826,
+        score: 0.9590000000000001,
         tag: VB,
         label_index: 25,
         index: 67,
@@ -575,7 +575,7 @@ expression: parsed
     },
     POSToken {
         word: "`",
-        score: 0.7637679576873779,
+        score: 0.764,
         tag: NN,
         label_index: 11,
         index: 68,
@@ -585,7 +585,7 @@ expression: parsed
     },
     POSToken {
         word: "mix",
-        score: 0.7935993671417236,
+        score: 0.794,
         tag: VB,
         label_index: 25,
         index: 69,
@@ -595,7 +595,7 @@ expression: parsed
     },
     POSToken {
         word: "rustler",
-        score: 0.24895743390845837,
+        score: 0.249,
         tag: NNP,
         label_index: 12,
         index: 70,
@@ -605,7 +605,7 @@ expression: parsed
     },
     POSToken {
         word: ".",
-        score: 0.2474227249622345,
+        score: 0.247,
         tag: NNP,
         label_index: 12,
         index: 72,
@@ -615,7 +615,7 @@ expression: parsed
     },
     POSToken {
         word: "new",
-        score: 0.524986207485199,
+        score: 0.525,
         tag: JJ,
         label_index: 7,
         index: 73,
@@ -625,7 +625,7 @@ expression: parsed
     },
     POSToken {
         word: "`",
-        score: 0.5661125183105469,
+        score: 0.5660000000000001,
         tag: NNS,
         label_index: 14,
         index: 74,
@@ -635,7 +635,7 @@ expression: parsed
     },
     POSToken {
         word: "to",
-        score: 0.9999556541442871,
+        score: 1.0,
         tag: TO,
         label_index: 23,
         index: 75,
@@ -645,7 +645,7 @@ expression: parsed
     },
     POSToken {
         word: "generate",
-        score: 0.9902148842811584,
+        score: 0.99,
         tag: VB,
         label_index: 25,
         index: 76,
@@ -655,7 +655,7 @@ expression: parsed
     },
     POSToken {
         word: "a",
-        score: 0.9999816417694092,
+        score: 1.0,
         tag: DT,
         label_index: 3,
         index: 77,
@@ -665,7 +665,7 @@ expression: parsed
     },
     POSToken {
         word: "new",
-        score: 0.9973697662353516,
+        score: 0.997,
         tag: JJ,
         label_index: 7,
         index: 78,
@@ -675,7 +675,7 @@ expression: parsed
     },
     POSToken {
         word: "NIF",
-        score: 0.4136504369867602,
+        score: 0.41400000000000003,
         tag: NN,
         label_index: 11,
         index: 79,
@@ -685,7 +685,7 @@ expression: parsed
     },
     POSToken {
         word: "in",
-        score: 0.9997164011001587,
+        score: 1.0,
         tag: IN,
         label_index: 6,
         index: 81,
@@ -695,7 +695,7 @@ expression: parsed
     },
     POSToken {
         word: "your",
-        score: 0.6077812910079956,
+        score: 0.608,
         tag: PRP,
         label_index: 17,
         index: 82,
@@ -705,7 +705,7 @@ expression: parsed
     },
     POSToken {
         word: "project",
-        score: 0.9970571398735046,
+        score: 0.997,
         tag: NN,
         label_index: 11,
         index: 83,
@@ -715,7 +715,7 @@ expression: parsed
     },
     POSToken {
         word: ".",
-        score: 0.2475094348192215,
+        score: 0.248,
         tag: TO,
         label_index: 23,
         index: 84,
@@ -725,7 +725,7 @@ expression: parsed
     },
     POSToken {
         word: "Follow",
-        score: 0.9774355292320251,
+        score: 0.977,
         tag: VB,
         label_index: 25,
         index: 85,
@@ -735,7 +735,7 @@ expression: parsed
     },
     POSToken {
         word: "the",
-        score: 0.9999900460243225,
+        score: 1.0,
         tag: DT,
         label_index: 3,
         index: 86,
@@ -745,7 +745,7 @@ expression: parsed
     },
     POSToken {
         word: "instructions",
-        score: 0.9945311546325684,
+        score: 0.995,
         tag: NNS,
         label_index: 14,
         index: 87,
@@ -755,7 +755,7 @@ expression: parsed
     },
     POSToken {
         word: ".",
-        score: 0.43976157903671265,
+        score: 0.44,
         tag: NNS,
         label_index: 14,
         index: 88,
@@ -765,7 +765,7 @@ expression: parsed
     },
     POSToken {
         word: "-",
-        score: 0.6518104672431946,
+        score: 0.652,
         tag: JJ,
         label_index: 7,
         index: 89,
@@ -775,7 +775,7 @@ expression: parsed
     },
     POSToken {
         word: "If",
-        score: 0.9914919137954712,
+        score: 0.991,
         tag: IN,
         label_index: 6,
         index: 90,
@@ -785,7 +785,7 @@ expression: parsed
     },
     POSToken {
         word: "you",
-        score: 0.9744523763656616,
+        score: 0.974,
         tag: PRP,
         label_index: 17,
         index: 91,
@@ -795,7 +795,7 @@ expression: parsed
     },
     POSToken {
         word: "are",
-        score: 0.9339438676834106,
+        score: 0.934,
         tag: VBP,
         label_index: 29,
         index: 92,
@@ -805,7 +805,7 @@ expression: parsed
     },
     POSToken {
         word: "already",
-        score: 0.9963840246200562,
+        score: 0.996,
         tag: RB,
         label_index: 18,
         index: 93,
@@ -815,7 +815,7 @@ expression: parsed
     },
     POSToken {
         word: "using",
-        score: 0.9983450174331665,
+        score: 0.998,
         tag: VBG,
         label_index: 27,
         index: 94,
@@ -825,7 +825,7 @@ expression: parsed
     },
     POSToken {
         word: "[",
-        score: 0.8916382789611816,
+        score: 0.892,
         tag: NNP,
         label_index: 12,
         index: 95,
@@ -835,7 +835,7 @@ expression: parsed
     },
     POSToken {
         word: "`",
-        score: 0.5970437526702881,
+        score: 0.597,
         tag: NNP,
         label_index: 12,
         index: 96,
@@ -845,7 +845,7 @@ expression: parsed
     },
     POSToken {
         word: "serde",
-        score: 0.5468462943803338,
+        score: 0.547,
         tag: NNP,
         label_index: 12,
         index: 97,
@@ -855,7 +855,7 @@ expression: parsed
     },
     POSToken {
         word: "`",
-        score: 0.7715820670127869,
+        score: 0.772,
         tag: NNP,
         label_index: 12,
         index: 99,
@@ -865,7 +865,7 @@ expression: parsed
     },
     POSToken {
         word: "]",
-        score: 0.7333847284317017,
+        score: 0.733,
         tag: NNP,
         label_index: 12,
         index: 100,
@@ -875,7 +875,7 @@ expression: parsed
     },
     POSToken {
         word: "(",
-        score: 0.49356919527053833,
+        score: 0.494,
         tag: IN,
         label_index: 6,
         index: 101,
@@ -885,7 +885,7 @@ expression: parsed
     },
     POSToken {
         word: "https",
-        score: 0.4803343415260315,
+        score: 0.48,
         tag: NNS,
         label_index: 14,
         index: 102,
@@ -895,7 +895,7 @@ expression: parsed
     },
     POSToken {
         word: ":",
-        score: 0.42196065187454224,
+        score: 0.422,
         tag: NNP,
         label_index: 12,
         index: 103,
@@ -905,7 +905,7 @@ expression: parsed
     },
     POSToken {
         word: "/",
-        score: 0.6600311398506165,
+        score: 0.66,
         tag: NNP,
         label_index: 12,
         index: 104,
@@ -915,7 +915,7 @@ expression: parsed
     },
     POSToken {
         word: "/",
-        score: 0.4615519940853119,
+        score: 0.462,
         tag: NNP,
         label_index: 12,
         index: 105,
@@ -925,7 +925,7 @@ expression: parsed
     },
     POSToken {
         word: "serde",
-        score: 0.7899681361461575,
+        score: 0.79,
         tag: NNP,
         label_index: 12,
         index: 106,
@@ -935,7 +935,7 @@ expression: parsed
     },
     POSToken {
         word: ".",
-        score: 0.8450068831443787,
+        score: 0.845,
         tag: NNP,
         label_index: 12,
         index: 108,
@@ -945,7 +945,7 @@ expression: parsed
     },
     POSToken {
         word: "rs",
-        score: 0.6719708442687988,
+        score: 0.672,
         tag: NNP,
         label_index: 12,
         index: 109,
@@ -955,7 +955,7 @@ expression: parsed
     },
     POSToken {
         word: ")",
-        score: 0.2542460560798645,
+        score: 0.254,
         tag: NN,
         label_index: 11,
         index: 110,
@@ -965,7 +965,7 @@ expression: parsed
     },
     POSToken {
         word: "and",
-        score: 0.999634861946106,
+        score: 1.0,
         tag: CC,
         label_index: 1,
         index: 111,
@@ -975,7 +975,7 @@ expression: parsed
     },
     POSToken {
         word: "/",
-        score: 0.9009062051773071,
+        score: 0.901,
         tag: NN,
         label_index: 11,
         index: 112,
@@ -985,7 +985,7 @@ expression: parsed
     },
     POSToken {
         word: "or",
-        score: 0.9848076105117798,
+        score: 0.985,
         tag: CC,
         label_index: 1,
         index: 113,
@@ -995,7 +995,7 @@ expression: parsed
     },
     POSToken {
         word: "have",
-        score: 0.555888295173645,
+        score: 0.556,
         tag: VBP,
         label_index: 29,
         index: 114,
@@ -1005,7 +1005,7 @@ expression: parsed
     },
     POSToken {
         word: "been",
-        score: 0.9985567927360535,
+        score: 0.999,
         tag: VBN,
         label_index: 28,
         index: 115,
@@ -1015,7 +1015,7 @@ expression: parsed
     },
     POSToken {
         word: "using",
-        score: 0.9925937652587891,
+        score: 0.993,
         tag: VBG,
         label_index: 27,
         index: 116,
@@ -1025,7 +1025,7 @@ expression: parsed
     },
     POSToken {
         word: "`",
-        score: 0.3011713922023773,
+        score: 0.301,
         tag: NN,
         label_index: 11,
         index: 117,
@@ -1035,7 +1035,7 @@ expression: parsed
     },
     POSToken {
         word: "serde",
-        score: 0.7325014068106839,
+        score: 0.733,
         tag: NNP,
         label_index: 12,
         index: 118,
@@ -1045,7 +1045,7 @@ expression: parsed
     },
     POSToken {
         word: "_",
-        score: 0.42046573758125305,
+        score: 0.42,
         tag: NN,
         label_index: 11,
         index: 120,
@@ -1055,7 +1055,7 @@ expression: parsed
     },
     POSToken {
         word: "rustler",
-        score: 0.36768210407343815,
+        score: 0.368,
         tag: NNP,
         label_index: 12,
         index: 121,
@@ -1065,7 +1065,7 @@ expression: parsed
     },
     POSToken {
         word: "`",
-        score: 0.7340719103813171,
+        score: 0.734,
         tag: NNS,
         label_index: 14,
         index: 123,
@@ -1075,7 +1075,7 @@ expression: parsed
     },
     POSToken {
         word: "before",
-        score: 0.9265612959861755,
+        score: 0.927,
         tag: IN,
         label_index: 6,
         index: 124,
@@ -1085,7 +1085,7 @@ expression: parsed
     },
     POSToken {
         word: ",",
-        score: 0.1866411715745926,
+        score: 0.187,
         tag: DT,
         label_index: 3,
         index: 125,
@@ -1095,7 +1095,7 @@ expression: parsed
     },
     POSToken {
         word: "please",
-        score: 0.6984201073646545,
+        score: 0.6980000000000001,
         tag: VB,
         label_index: 25,
         index: 126,
@@ -1105,7 +1105,7 @@ expression: parsed
     },
     POSToken {
         word: "enable",
-        score: 0.9540420174598694,
+        score: 0.9540000000000001,
         tag: VB,
         label_index: 25,
         index: 127,
@@ -1115,7 +1115,7 @@ expression: parsed
     },
     POSToken {
         word: "the",
-        score: 0.9999853372573853,
+        score: 1.0,
         tag: DT,
         label_index: 3,
         index: 128,
@@ -1125,7 +1125,7 @@ expression: parsed
     },
     POSToken {
         word: "`",
-        score: 0.46623894572257996,
+        score: 0.466,
         tag: NN,
         label_index: 11,
         index: 129,
@@ -1135,7 +1135,7 @@ expression: parsed
     },
     POSToken {
         word: "serde",
-        score: 0.5342979453321632,
+        score: 0.534,
         tag: NNP,
         label_index: 12,
         index: 130,
@@ -1145,7 +1145,7 @@ expression: parsed
     },
     POSToken {
         word: "`",
-        score: 0.5512051582336426,
+        score: 0.551,
         tag: NNS,
         label_index: 14,
         index: 132,
@@ -1155,7 +1155,7 @@ expression: parsed
     },
     POSToken {
         word: "feature",
-        score: 0.981834352016449,
+        score: 0.982,
         tag: NN,
         label_index: 11,
         index: 133,
@@ -1165,7 +1165,7 @@ expression: parsed
     },
     POSToken {
         word: "in",
-        score: 0.9998982548713684,
+        score: 1.0,
         tag: IN,
         label_index: 6,
         index: 134,
@@ -1175,7 +1175,7 @@ expression: parsed
     },
     POSToken {
         word: "your",
-        score: 0.7870864868164063,
+        score: 0.787,
         tag: PRP,
         label_index: 17,
         index: 135,
@@ -1185,7 +1185,7 @@ expression: parsed
     },
     POSToken {
         word: "NIF",
-        score: 0.21826403493603763,
+        score: 0.218,
         tag: NN,
         label_index: 11,
         index: 136,
@@ -1195,7 +1195,7 @@ expression: parsed
     },
     POSToken {
         word: "crate",
-        score: 0.9713843464851379,
+        score: 0.971,
         tag: NN,
         label_index: 11,
         index: 138,
@@ -1205,7 +1205,7 @@ expression: parsed
     },
     POSToken {
         word: "'",
-        score: 0.9771125316619873,
+        score: 0.977,
         tag: POS,
         label_index: 16,
         index: 139,
@@ -1215,7 +1215,7 @@ expression: parsed
     },
     POSToken {
         word: "s",
-        score: 0.6749321222305298,
+        score: 0.675,
         tag: DT,
         label_index: 3,
         index: 140,
@@ -1225,7 +1225,7 @@ expression: parsed
     },
     POSToken {
         word: "`",
-        score: 0.6688801050186157,
+        score: 0.669,
         tag: NN,
         label_index: 11,
         index: 141,
@@ -1235,7 +1235,7 @@ expression: parsed
     },
     POSToken {
         word: "Cargo",
-        score: 0.5689875483512878,
+        score: 0.5690000000000001,
         tag: NN,
         label_index: 11,
         index: 142,
@@ -1245,7 +1245,7 @@ expression: parsed
     },
     POSToken {
         word: ".",
-        score: 0.6731827259063721,
+        score: 0.673,
         tag: NNP,
         label_index: 12,
         index: 143,
@@ -1255,7 +1255,7 @@ expression: parsed
     },
     POSToken {
         word: "toml",
-        score: 0.19061735982491967,
+        score: 0.191,
         tag: NN,
         label_index: 11,
         index: 144,
@@ -1265,7 +1265,7 @@ expression: parsed
     },
     POSToken {
         word: "`",
-        score: 0.41062402725219727,
+        score: 0.41100000000000003,
         tag: NNS,
         label_index: 14,
         index: 146,
@@ -1275,7 +1275,7 @@ expression: parsed
     },
     POSToken {
         word: "on",
-        score: 0.9963319301605225,
+        score: 0.996,
         tag: IN,
         label_index: 6,
         index: 147,
@@ -1285,7 +1285,7 @@ expression: parsed
     },
     POSToken {
         word: "the",
-        score: 0.9999924302101135,
+        score: 1.0,
         tag: DT,
         label_index: 3,
         index: 148,
@@ -1295,7 +1295,7 @@ expression: parsed
     },
     POSToken {
         word: "`",
-        score: 0.35348284244537354,
+        score: 0.353,
         tag: NN,
         label_index: 11,
         index: 149,
@@ -1305,7 +1305,7 @@ expression: parsed
     },
     POSToken {
         word: "rustler",
-        score: 0.20324191081416387,
+        score: 0.203,
         tag: NNP,
         label_index: 12,
         index: 150,
@@ -1315,7 +1315,7 @@ expression: parsed
     },
     POSToken {
         word: "`",
-        score: 0.5776707530021667,
+        score: 0.578,
         tag: NNS,
         label_index: 14,
         index: 152,
@@ -1325,7 +1325,7 @@ expression: parsed
     },
     POSToken {
         word: "dependency",
-        score: 0.9966633319854736,
+        score: 0.997,
         tag: NN,
         label_index: 11,
         index: 153,

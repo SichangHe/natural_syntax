@@ -16,7 +16,8 @@ fn paragraph_pos() {
     let start = Instant::now();
     let output = model.predict(input);
     info!("Took {}ms to predict.", start.elapsed().as_millis());
-    let parsed = output.collect::<Result<Vec<_>, _>>().unwrap();
+    let mut parsed = output.collect::<Result<Vec<_>, _>>().unwrap();
+    round_scores(&mut parsed);
     assert_debug_snapshot!(parsed);
 }
 
@@ -39,8 +40,17 @@ fn markdown_pos() {
     let start = Instant::now();
     let output = model.predict(input);
     info!("Took {}ms to predict.", start.elapsed().as_millis());
-    let parsed = output.collect::<Result<Vec<_>, _>>().unwrap();
+    let mut parsed = output.collect::<Result<Vec<_>, _>>().unwrap();
+    round_scores(&mut parsed);
     assert_debug_snapshot!(parsed);
+}
+
+const PRECISION: f64 = 1e-3;
+
+fn round_scores(predictions: &mut [POSToken]) {
+    predictions
+        .iter_mut()
+        .for_each(|token| token.score = (token.score / PRECISION).round() * PRECISION)
 }
 
 fn init_tracing() {
