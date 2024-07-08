@@ -1,0 +1,36 @@
+---
+source: natural_syntax_ls/src/tests.rs
+expression: modifiers
+---
+[
+    SemanticTokenModifier(
+        "declaration",
+    ),
+    SemanticTokenModifier(
+        "definition",
+    ),
+    SemanticTokenModifier(
+        "readonly",
+    ),
+    SemanticTokenModifier(
+        "static",
+    ),
+    SemanticTokenModifier(
+        "deprecated",
+    ),
+    SemanticTokenModifier(
+        "abstract",
+    ),
+    SemanticTokenModifier(
+        "async",
+    ),
+    SemanticTokenModifier(
+        "modification",
+    ),
+    SemanticTokenModifier(
+        "documentation",
+    ),
+    SemanticTokenModifier(
+        "defaultLibrary",
+    ),
+]

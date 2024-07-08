@@ -1,5 +1,5 @@
 [workspace]
-members = ["."]
+members = [".", "natural_syntax_ls"]
 
 [workspace.package]
 description = "Natural language syntax highlighting."
@@ -27,7 +27,6 @@ name = "natural_syntax"
 readme.workspace = true
 repository.workspace = true
 version = "0.0.0"
-# publish = false
 
 [dependencies]
 rust-bert = "0.22"

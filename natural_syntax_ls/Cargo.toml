@@ -1,0 +1,23 @@
+[package]
+name = "natural_syntax_ls"
+version = "0.0.0"
+description.workspace = true
+edition.workspace = true
+license.workspace = true
+readme.workspace = true
+repository.workspace = true
+publish = false
+
+[dependencies]
+natural_syntax.workspace = true
+num = "0.4"
+num-derive = "0.4"
+num-traits = "0.2"
+tower-lsp = "0.20"
+tracing.workspace = true
+tracing-subscriber.workspace = true
+
+[dev-dependencies]
+insta.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
