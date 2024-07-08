@@ -7,16 +7,16 @@ use insta::assert_debug_snapshot;
 #[test]
 fn paragraph_pos() {
     let start = Instant::now();
-    let pos_model = POSModel::new(Default::default()).unwrap();
+    let model = pos_model().unwrap();
     println!("Took {}ms to load the model.", start.elapsed().as_millis());
     let input = ["Extracts Part of Speech tags (Noun, Verb, Adjective…) from text. A lightweight pretrained model using MobileBERT is available for English."];
     let start = Instant::now();
-    let mut output = pos_model.predict(&input);
+    let mut output = model.predict(&input, true, false);
     println!("Took {}ms to predict.", start.elapsed().as_millis());
     assert_eq!(1, output.len());
     let parsed = output[0]
         .drain(..)
-        .map(Tagged::try_from)
+        .map(POSToken::try_from)
         .collect::<Result<Vec<_>, _>>()
         .unwrap();
     assert_debug_snapshot!(parsed);
