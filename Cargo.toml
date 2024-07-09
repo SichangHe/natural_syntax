@@ -9,6 +9,7 @@ readme = "README.md"
 repository = "https://github.com/SichangHe/natural_syntax"
 
 [workspace.dependencies]
+anyhow = "1"
 insta = "1.39"
 natural_syntax = { version = "0.0", path = "." }
 tracing = "0.1"

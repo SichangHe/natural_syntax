@@ -1,16 +1,30 @@
 use std::sync::Arc;
 
+use anyhow::Result;
 use dashmap::DashMap;
 use natural_syntax::{POSModel, POSToken};
 use ropey::Rope;
-use tokio::task::{block_in_place, yield_now};
+use tokio::{
+    io::{stdin, stdout},
+    task::{block_in_place, yield_now},
+};
 use tokio_two_join_set::TwoJoinSet;
-use tower_lsp::{jsonrpc::Result, lsp_types::*, Client, LanguageServer};
+use tower_lsp::{
+    jsonrpc::Result as JsonRes, lsp_types::*, Client, LanguageServer, LspService, Server,
+};
 
 mod semantic_tokens;
 
 use semantic_tokens::*;
 use tracing::{error, info};
+
+/// Run the Part of Speech Language Server that provides highlighting.
+pub async fn run_part_of_speech_ls() -> Result<()> {
+    let model = POSModel::try_default()?;
+    let (service, socket) = LspService::build(|client| POSLS::new(client, model)).finish();
+    Server::new(stdin(), stdout(), socket).serve(service).await;
+    Ok(())
+}
 
 pub type Documents = Arc<DashMap<Url, Document>>;
 
@@ -93,7 +107,7 @@ pub fn filter_token(token: &POSToken) -> bool {
 
 #[tower_lsp::async_trait]
 impl LanguageServer for POSLS {
-    async fn initialize(&self, _params: InitializeParams) -> Result<InitializeResult> {
+    async fn initialize(&self, _params: InitializeParams) -> JsonRes<InitializeResult> {
         Ok(InitializeResult {
             capabilities: server_capabilities(),
             ..Default::default()
@@ -127,7 +141,7 @@ impl LanguageServer for POSLS {
     async fn semantic_tokens_full(
         &self,
         params: SemanticTokensParams,
-    ) -> Result<Option<SemanticTokensResult>> {
+    ) -> JsonRes<Option<SemanticTokensResult>> {
         let Some(document) = block_in_place(|| self.documents.get(&params.text_document.uri))
         else {
             return Ok(None);
@@ -139,7 +153,7 @@ impl LanguageServer for POSLS {
         })))
     }
 
-    async fn shutdown(&self) -> Result<()> {
+    async fn shutdown(&self) -> JsonRes<()> {
         self.client // Placeholder to make `self.client` used.
             .log_message(MessageType::WARNING, "Exiting.")
             .await;

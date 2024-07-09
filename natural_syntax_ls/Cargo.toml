@@ -8,14 +8,24 @@ readme.workspace = true
 repository.workspace = true
 publish = false
 
+[[bin]]
+name = "natural-syntax-ls"
+path = "src/main.rs"
+
 [dependencies]
+anyhow.workspace = true
 dashmap = "6"
 natural_syntax.workspace = true
 num = "0.4"
 num-derive = "0.4"
 num-traits = "0.2"
 ropey = "1"
-tokio = { version = "1", features = ["macros", "rt-multi-thread", "sync"] }
+tokio = { version = "1", features = [
+    "macros",
+    "rt-multi-thread",
+    "io-std",
+    "sync",
+] }
 tokio_two_join_set = "0.0"
 tower-lsp = "0.20"
 tracing.workspace = true
