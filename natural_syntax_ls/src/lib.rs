@@ -21,6 +21,7 @@ use tracing::{error, info};
 /// Run the Part of Speech Language Server that provides highlighting.
 pub async fn run_part_of_speech_ls() -> Result<()> {
     let model = block_in_place(POSModel::try_default)?;
+    info!("Model loaded.");
     let (service, socket) = LspService::build(|client| POSLS::new(client, model)).finish();
     Server::new(stdin(), stdout(), socket).serve(service).await;
     Ok(())
@@ -144,8 +145,10 @@ impl LanguageServer for POSLS {
     ) -> JsonRes<Option<SemanticTokensResult>> {
         let Some(document) = block_in_place(|| self.documents.get(&params.text_document.uri))
         else {
+            info!(?params.text_document.uri, "Document not found for semantic tokens.");
             return Ok(None);
         };
+        info!(?params.text_document.uri, "Will send semantic tokens.");
         let (text, tokens) = (&document.text, &document.tokens);
         Ok(Some(SemanticTokensResult::Tokens(SemanticTokens {
             result_id: None,
@@ -207,6 +210,7 @@ fn server_capabilities() -> ServerCapabilities {
                     token_types: semantic_token_types(),
                     token_modifiers: semantic_token_modifiers(),
                 },
+                full: Some(SemanticTokensFullOptions::Bool(true)),
                 // range: Some(true), // TODO: Implement `semantic_tokens_range`
                 ..Default::default()
             },
