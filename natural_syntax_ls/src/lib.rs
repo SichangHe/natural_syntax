@@ -20,7 +20,7 @@ use tracing::{error, info};
 
 /// Run the Part of Speech Language Server that provides highlighting.
 pub async fn run_part_of_speech_ls() -> Result<()> {
-    let model = POSModel::try_default()?;
+    let model = block_in_place(POSModel::try_default)?;
     let (service, socket) = LspService::build(|client| POSLS::new(client, model)).finish();
     Server::new(stdin(), stdout(), socket).serve(service).await;
     Ok(())
