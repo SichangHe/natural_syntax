@@ -93,30 +93,46 @@ impl LanguageServer for POSLS {
         })
     }
 
-    async fn did_open(&self, params: DidOpenTextDocumentParams) {
-        info!(uri = params.text_document.uri.path(), "Opened.");
+    async fn did_open(
+        &self,
+        DidOpenTextDocumentParams { text_document }: DidOpenTextDocumentParams,
+    ) {
+        info!(uri = text_document.uri.path(), "Opened.");
         self.on_change(TextDocumentItem {
-            uri: params.text_document.uri,
-            text: params.text_document.text,
-            version: params.text_document.version,
+            uri: text_document.uri,
+            text: text_document.text,
+            version: text_document.version,
         })
         .await;
     }
 
-    async fn did_change(&self, mut params: DidChangeTextDocumentParams) {
-        info!(uri = params.text_document.uri.path(), "Changed.");
+    async fn did_change(
+        &self,
+        DidChangeTextDocumentParams {
+            text_document,
+            mut content_changes,
+        }: DidChangeTextDocumentParams,
+    ) {
+        info!(uri = text_document.uri.path(), "Changed.");
         // TODO: Partial changes.
-        debug_assert_eq!(
-            params.content_changes.len(),
-            1,
-            "We only take full changes."
-        );
+        debug_assert_eq!(content_changes.len(), 1, "We only take full changes.");
         self.on_change(TextDocumentItem {
-            uri: params.text_document.uri,
-            text: params.content_changes.pop().unwrap().text,
-            version: params.text_document.version,
+            uri: text_document.uri,
+            text: content_changes.pop().unwrap().text,
+            version: text_document.version,
         })
         .await
+    }
+
+    async fn did_close(
+        &self,
+        DidCloseTextDocumentParams { text_document }: DidCloseTextDocumentParams,
+    ) {
+        info!(uri = text_document.uri.path(), "Closed.");
+        self.document_registry
+            .cast(DocumentInfo::Discard(text_document.uri))
+            .await
+            .unwrap();
     }
 
     async fn semantic_tokens_full(

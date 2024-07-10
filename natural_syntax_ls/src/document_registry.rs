@@ -58,19 +58,23 @@ impl Actor for DocumentRegistry {
                 }
             }
             DocumentInfo::Predicted(uri, document) => {
-                let store = self.documents.entry(uri.clone()).or_default();
-                debug!(uri = uri.path(), document.version, "Received processed.");
-                store.processing = false;
-                if let Some(reply) = store.delayed_reply.take() {
-                    debug!(uri = uri.path(), "Sending delayed reply.");
-                    let tokens = semantic_tokens(&document.text, &document.tokens);
-                    reply.send(tokens).drop_result();
-                }
-                store.document = Some(document);
-                if let Some(queued) = store.queued.take() {
-                    schedule_document_processing(queued, store, &self.model, &env.ref_);
+                debug!(uri = uri.path(), document.version, "Received prediction.");
+                if let Some(store) = self.documents.get_mut(&uri) {
+                    store.processing = false;
+                    if let Some(reply) = store.delayed_reply.take() {
+                        debug!(uri = uri.path(), "Sending delayed reply.");
+                        let tokens = semantic_tokens(&document.text, &document.tokens);
+                        reply.send(tokens).drop_result();
+                    }
+                    store.document = Some(document);
+                    if let Some(queued) = store.queued.take() {
+                        schedule_document_processing(queued, store, &self.model, &env.ref_);
+                    }
+                } else {
+                    debug!("Discarding uninteresting prediction.");
                 }
             }
+            DocumentInfo::Discard(uri) => _ = self.documents.remove(&uri),
         }
         Ok(())
     }
@@ -117,4 +121,6 @@ pub enum DocumentInfo {
     Item(TextDocumentItem),
     /// Predicted tokens for the document.
     Predicted(Url, Document),
+    /// Forget about the document.
+    Discard(Url),
 }
