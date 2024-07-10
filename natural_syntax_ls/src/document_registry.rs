@@ -14,7 +14,7 @@ impl DocumentRegistry {
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 struct DocumentStore {
     /// The document waiting to be processed.
     queued: Option<TextDocumentItem>,
@@ -22,9 +22,21 @@ struct DocumentStore {
     processing: bool,
     /// The processed document.
     document: Option<Document>,
-    /// Replies to be made after processing the document.
-    delayed_replies: Vec<oneshot::Sender<Vec<SemanticToken>>>,
+    /// Reply to be made after processing the document.
+    delayed_reply: Option<oneshot::Sender<Vec<SemanticToken>>>,
     latest_version: i32,
+}
+
+impl Default for DocumentStore {
+    fn default() -> Self {
+        Self {
+            queued: Default::default(),
+            processing: Default::default(),
+            document: Default::default(),
+            delayed_reply: Default::default(),
+            latest_version: i32::MIN,
+        }
+    }
 }
 
 impl Actor for DocumentRegistry {
@@ -37,32 +49,24 @@ impl Actor for DocumentRegistry {
             DocumentInfo::Item(item) => {
                 let store = self.documents.entry(item.uri.clone()).or_default();
                 if store.latest_version < item.version {
+                    debug!(
+                        uri = item.uri.path(),
+                        item.version, "Scheduling processing latest-version document."
+                    );
                     store.latest_version = item.version;
                     schedule_document_processing(item, store, &self.model, &env.ref_);
                 }
             }
             DocumentInfo::Predicted(uri, document) => {
                 let store = self.documents.entry(uri.clone()).or_default();
+                debug!(uri = uri.path(), document.version, "Received processed.");
                 store.processing = false;
-                if !store.delayed_replies.is_empty() {
+                if let Some(reply) = store.delayed_reply.take() {
+                    debug!(uri = uri.path(), "Sending delayed reply.");
                     let tokens = semantic_tokens(&document.text, &document.tokens);
-                    for reply in store.delayed_replies.drain(1..) {
-                        reply.send(tokens.clone()).drop_result();
-                    }
-                    store
-                        .delayed_replies
-                        .pop()
-                        .unwrap()
-                        .send(tokens)
-                        .drop_result();
+                    reply.send(tokens).drop_result();
                 }
-                match &store.document {
-                    None => store.document = Some(document),
-                    Some(existing_document) if existing_document.version < document.version => {
-                        store.document = Some(document);
-                    }
-                    _ => info!(?uri, ?document.version, "Ignoring outdated document."),
-                }
+                store.document = Some(document);
                 if let Some(queued) = store.queued.take() {
                     schedule_document_processing(queued, store, &self.model, &env.ref_);
                 }
@@ -83,7 +87,7 @@ impl Actor for DocumentRegistry {
                 let tokens = semantic_tokens(text, tokens);
                 reply_sender.send(tokens).drop_result();
             }
-            _ => store.delayed_replies.push(reply_sender),
+            _ => store.delayed_reply = Some(reply_sender),
         }
         Ok(())
     }
@@ -96,6 +100,10 @@ fn schedule_document_processing(
     ref_: &ActorRef<DocumentRegistry>,
 ) {
     if store.processing {
+        debug!(
+            uri = item.uri.path(),
+            item.version, "Queuing for prediction."
+        );
         store.queued = Some(item);
     } else {
         (store.processing, store.queued) = (true, None);

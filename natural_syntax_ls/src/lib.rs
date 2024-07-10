@@ -19,7 +19,7 @@ mod semantic_tokens;
 
 use document_registry::*;
 use semantic_tokens::*;
-use tracing::{error, info};
+use tracing::{debug, error, info};
 
 /// Run the Part of Speech Language Server that provides highlighting.
 pub async fn run_part_of_speech_ls() -> Result<()> {
@@ -55,6 +55,7 @@ impl POSLS {
 }
 
 fn predict(model: Arc<POSModel>, item: TextDocumentItem, actor_ref: ActorRef<DocumentRegistry>) {
+    debug!(uri = item.uri.path(), item.version, "Predicting.");
     let mut tokens = model
         .predict(&item.text)
         .filter_map(|maybe_token| match maybe_token {
@@ -93,15 +94,17 @@ impl LanguageServer for POSLS {
     }
 
     async fn did_open(&self, params: DidOpenTextDocumentParams) {
+        info!(uri = params.text_document.uri.path(), "Opened.");
         self.on_change(TextDocumentItem {
             uri: params.text_document.uri,
             text: params.text_document.text,
             version: params.text_document.version,
         })
-        .await
+        .await;
     }
 
     async fn did_change(&self, mut params: DidChangeTextDocumentParams) {
+        info!(uri = params.text_document.uri.path(), "Changed.");
         // TODO: Partial changes.
         debug_assert_eq!(
             params.content_changes.len(),
@@ -120,16 +123,18 @@ impl LanguageServer for POSLS {
         &self,
         params: SemanticTokensParams,
     ) -> JsonRes<Option<SemanticTokensResult>> {
-        info!(?params.text_document.uri, "Will send full semantic tokens.");
-        let data = self
-            .document_registry
-            .call(params.text_document.uri)
-            .await
-            .unwrap();
-        Ok(Some(SemanticTokensResult::Tokens(SemanticTokens {
-            result_id: None,
-            data,
-        })))
+        info!(
+            uri = params.text_document.uri.path(),
+            "Full semantic tokens requested."
+        );
+        let maybe_data = self.document_registry.call(params.text_document.uri).await;
+        Ok(maybe_data.ok().map(|data| {
+            info!("Sending full semantic tokens.");
+            SemanticTokensResult::Tokens(SemanticTokens {
+                result_id: None,
+                data,
+            })
+        }))
     }
 
     async fn shutdown(&self) -> JsonRes<()> {
