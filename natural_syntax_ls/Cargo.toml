@@ -14,7 +14,7 @@ path = "src/main.rs"
 
 [dependencies]
 anyhow.workspace = true
-dashmap = "6"
+drop_this = "0.0"
 natural_syntax.workspace = true
 num = "0.4"
 num-derive = "0.4"
@@ -26,7 +26,7 @@ tokio = { version = "1", features = [
     "io-std",
     "sync",
 ] }
-tokio_two_join_set = "0.0"
+tokio_gen_server = "0.5"
 tower-lsp = "0.20"
 tracing.workspace = true
 tracing-subscriber.workspace = true

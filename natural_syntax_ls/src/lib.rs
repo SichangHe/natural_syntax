@@ -1,20 +1,23 @@
-use std::sync::Arc;
+use std::{collections::HashMap, sync::Arc};
 
 use anyhow::Result;
-use dashmap::DashMap;
+use drop_this::*;
 use natural_syntax::{POSModel, POSToken};
 use ropey::Rope;
 use tokio::{
     io::{stdin, stdout},
-    task::{block_in_place, yield_now},
+    sync::oneshot,
+    task::{block_in_place, spawn_blocking},
 };
-use tokio_two_join_set::TwoJoinSet;
+use tokio_gen_server::prelude::*;
 use tower_lsp::{
     jsonrpc::Result as JsonRes, lsp_types::*, Client, LanguageServer, LspService, Server,
 };
 
+mod document_registry;
 mod semantic_tokens;
 
+use document_registry::*;
 use semantic_tokens::*;
 use tracing::{error, info};
 
@@ -27,77 +30,51 @@ pub async fn run_part_of_speech_ls() -> Result<()> {
     Ok(())
 }
 
-pub type Documents = Arc<DashMap<Url, Document>>;
-
 pub struct POSLS {
     client: Client,
-    model: Arc<POSModel>,
-    documents: Documents,
-    prediction_join_sets: DashMap<Url, TwoJoinSet<()>>,
+    document_registry: ActorRef<DocumentRegistry>,
 }
 
 const TOKEN_SCORE_THRESHOLD: f64 = 1. / 3.;
 
 impl POSLS {
     pub fn new(client: Client, model: POSModel) -> Self {
+        let document_registry = DocumentRegistry::new(Arc::new(model));
         Self {
             client,
-            model: Arc::new(model),
-            documents: Default::default(),
-            prediction_join_sets: Default::default(),
+            document_registry: document_registry.spawn().1,
         }
     }
 
     async fn on_change(&self, item: TextDocumentItem) {
-        let uri = item.uri.clone();
-        let task = process_document(item, self.model.clone(), self.documents.clone());
-        _ = self
-            .prediction_join_sets
-            .entry(uri)
-            .or_default()
-            .spawn(task);
+        self.document_registry
+            .cast(DocumentInfo::Item(item))
+            .await
+            .unwrap();
     }
 }
 
-async fn process_document(
-    TextDocumentItem { uri, text, version }: TextDocumentItem,
-    model: Arc<POSModel>,
-    documents: Documents,
-) {
-    if block_in_place(|| version_outdated(&documents, &uri, version)) {
-        return info!(?uri, version, "Ignoring outdated version.");
-    }
-    yield_now().await;
-    let predictions = block_in_place(|| model.predict(&text));
-    yield_now().await;
-    let tokens = predictions
+fn predict(model: Arc<POSModel>, item: TextDocumentItem, actor_ref: ActorRef<DocumentRegistry>) {
+    let mut tokens = model
+        .predict(&item.text)
         .filter_map(|maybe_token| match maybe_token {
             Ok(token) => Some(token),
             Err(err) => {
-                error!(?err, ?uri, "Tagging text.");
+                error!(?err, ?item.uri, "Tagging text.");
                 None
             }
         })
         .filter(filter_token)
-        .collect();
-    if block_in_place(|| version_outdated(&documents, &uri, version)) {
-        return info!(
-            ?uri,
-            version, "Ignoring outdated version after classifying."
-        );
-    }
-    yield_now().await;
+        .collect::<Vec<_>>();
+    tokens.sort_by_key(|token| token.offset_begin);
     let document = Document {
-        text: Rope::from_str(&text),
+        text: Rope::from_str(&item.text),
         tokens,
-        version,
+        version: item.version,
     };
-    yield_now().await;
-    block_in_place(|| documents.insert(uri, document));
-}
-
-fn version_outdated(documents: &DashMap<Url, Document>, uri: &Url, version: i32) -> bool {
-    matches!(documents.get(uri), Some(doc) if version <= doc.version)
+    actor_ref
+        .blocking_cast(DocumentInfo::Predicted(item.uri, document))
+        .drop_result();
 }
 
 /// Filter out tokens with low score or purely punctuations.
@@ -143,16 +120,15 @@ impl LanguageServer for POSLS {
         &self,
         params: SemanticTokensParams,
     ) -> JsonRes<Option<SemanticTokensResult>> {
-        let Some(document) = block_in_place(|| self.documents.get(&params.text_document.uri))
-        else {
-            info!(?params.text_document.uri, "Document not found for semantic tokens.");
-            return Ok(None);
-        };
-        info!(?params.text_document.uri, "Will send semantic tokens.");
-        let (text, tokens) = (&document.text, &document.tokens);
+        info!(?params.text_document.uri, "Will send full semantic tokens.");
+        let data = self
+            .document_registry
+            .call(params.text_document.uri)
+            .await
+            .unwrap();
         Ok(Some(SemanticTokensResult::Tokens(SemanticTokens {
             result_id: None,
-            data: semantic_tokens(text, tokens),
+            data,
         })))
     }
 
