@@ -19,7 +19,10 @@ natural_syntax.workspace = true
 num = "0.4"
 num-derive = "0.4"
 num-traits = "0.2"
-ropey = "1"
+ropey = { version = "1", default-features = false, features = [
+    "cr_lines",
+    "simd",
+] } # Disable `unicode_lines` to match language client line counting.
 tokio = { version = "1", features = [
     "macros",
     "rt-multi-thread",
