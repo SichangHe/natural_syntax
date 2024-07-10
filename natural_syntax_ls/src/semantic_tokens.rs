@@ -118,241 +118,244 @@ pub const fn token_type_n_modifiers(pos: PartOfSpeech) -> TokenTypeNModifier {
     // Match the PartOfSpeech enum to TokenType and modifiers
     match pos {
         PartOfSpeech::CC => {
-            // Coordinating conjunctions are classified as KEYWORD with no modifiers
+            // Coordinating conjunctions
             TokenTypeNModifier {
                 token_type: TokenType::KEYWORD as u32,
-                token_modifiers_bitset: 0,
+                token_modifiers_bitset: modifiers_to_bitmap(&[]),
             }
         }
         PartOfSpeech::CD => {
-            // Cardinal numbers are classified as NUMBER with no modifiers
+            // Cardinal numbers
             TokenTypeNModifier {
                 token_type: TokenType::NUMBER as u32,
-                token_modifiers_bitset: 0,
+                token_modifiers_bitset: modifiers_to_bitmap(&[]),
             }
         }
         PartOfSpeech::DT => {
-            // Determiners are classified as KEYWORD with DOCUMENTATION modifier
+            // Determiners
             TokenTypeNModifier {
-                token_type: TokenType::KEYWORD as u32,
+                token_type: TokenType::STRING as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DOCUMENTATION]),
             }
         }
         PartOfSpeech::EX => {
-            // Existential "there" is classified as KEYWORD with DEPRECATED modifier
+            // Existential "there"
             TokenTypeNModifier {
                 token_type: TokenType::KEYWORD as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DEPRECATED]),
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DEFINITION]),
             }
         }
         PartOfSpeech::FW => {
-            // Foreign words are classified as STRING with no modifiers
+            // Foreign words
             TokenTypeNModifier {
                 token_type: TokenType::STRING as u32,
-                token_modifiers_bitset: 0,
+                token_modifiers_bitset: modifiers_to_bitmap(&[]),
             }
         }
         PartOfSpeech::IN => {
-            // Prepositions and subordinating conjunctions are classified as KEYWORD with ASYNC modifier
+            // Prepositions
             TokenTypeNModifier {
-                token_type: TokenType::KEYWORD as u32,
+                token_type: TokenType::COMMENT as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::ASYNC]),
             }
         }
         PartOfSpeech::JJ => {
-            // Adjectives are classified as TYPE with no modifiers
+            // Adjectives
             TokenTypeNModifier {
                 token_type: TokenType::TYPE as u32,
-                token_modifiers_bitset: 0,
+                token_modifiers_bitset: modifiers_to_bitmap(&[]),
             }
         }
         PartOfSpeech::JJR => {
-            // Comparative adjectives are classified as TYPE with MODIFICATION modifier
+            // Comparative adjectives
             TokenTypeNModifier {
-                token_type: TokenType::TYPE as u32,
+                token_type: TokenType::STRUCT as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::MODIFICATION]),
             }
         }
         PartOfSpeech::JJS => {
-            // Superlative adjectives are classified as TYPE with DEFAULT_LIBRARY modifier
+            // Superlative adjectives
             TokenTypeNModifier {
-                token_type: TokenType::TYPE as u32,
+                token_type: TokenType::INTERFACE as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DEFAULT_LIBRARY]),
             }
         }
         PartOfSpeech::MD => {
-            // Modals are classified as KEYWORD with READONLY modifier
+            // Modals
             TokenTypeNModifier {
                 token_type: TokenType::KEYWORD as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::READONLY]),
             }
         }
         PartOfSpeech::NN => {
-            // Nouns (singular or mass) are classified as TYPE with no modifiers
+            // Nouns (singular or mass)
             TokenTypeNModifier {
-                token_type: TokenType::TYPE as u32,
-                token_modifiers_bitset: 0,
+                token_type: TokenType::PARAMETER as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[]),
             }
         }
         PartOfSpeech::NNP => {
-            // Proper nouns (singular) are classified as TYPE with DECLARATION modifier
+            // Proper nouns (singular)
             TokenTypeNModifier {
-                token_type: TokenType::TYPE as u32,
+                token_type: TokenType::PARAMETER as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DECLARATION]),
             }
         }
         PartOfSpeech::NNPS => {
-            // Proper nouns (plural) are classified as TYPE with DEFINITION modifier
+            // Proper nouns (plural)
             TokenTypeNModifier {
-                token_type: TokenType::TYPE as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DEFINITION]),
+                token_type: TokenType::PARAMETER as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[
+                    TokenModifier::DECLARATION,
+                    TokenModifier::MODIFICATION,
+                ]),
             }
         }
         PartOfSpeech::NNS => {
-            // Nouns (plural) are classified as TYPE with STATIC modifier
+            // Nouns (plural)
             TokenTypeNModifier {
-                token_type: TokenType::TYPE as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::STATIC]),
+                token_type: TokenType::PARAMETER as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::MODIFICATION]),
             }
         }
         PartOfSpeech::O => {
-            // Other (not a part of speech) is classified as COMMENT with no modifiers
+            // Other (not a part of speech)
             TokenTypeNModifier {
                 token_type: TokenType::COMMENT as u32,
-                token_modifiers_bitset: 0,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DEPRECATED]),
             }
         }
         PartOfSpeech::PDT => {
-            // Predeterminers are classified as KEYWORD with ABSTRACT modifier
+            // Predeterminers
             TokenTypeNModifier {
-                token_type: TokenType::KEYWORD as u32,
+                token_type: TokenType::STRING as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::ABSTRACT]),
             }
         }
         PartOfSpeech::POS => {
-            // Possessive endings are classified as KEYWORD with DEPRECATION modifier
+            // Possessive endings
             TokenTypeNModifier {
-                token_type: TokenType::KEYWORD as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DEPRECATED]),
+                token_type: TokenType::PROPERTY as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DECLARATION]),
             }
         }
         PartOfSpeech::PRP => {
-            // Personal pronouns are classified as TYPE_PARAMETER with no modifiers
+            // Personal pronouns
             TokenTypeNModifier {
-                token_type: TokenType::TYPE_PARAMETER as u32,
-                token_modifiers_bitset: 0,
+                token_type: TokenType::PROPERTY as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[]),
             }
         }
         PartOfSpeech::RB => {
-            // Adverbs are classified as KEYWORD with MODIFIER modifier
+            // Adverbs
             TokenTypeNModifier {
-                token_type: TokenType::KEYWORD as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::MODIFICATION]),
+                token_type: TokenType::ENUM_MEMBER as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[]),
             }
         }
         PartOfSpeech::RBR => {
-            // Comparative adverbs are classified as KEYWORD with ASYNC modifier
+            // Comparative adverbs
             TokenTypeNModifier {
-                token_type: TokenType::KEYWORD as u32,
+                token_type: TokenType::ENUM_MEMBER as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::ASYNC]),
             }
         }
         PartOfSpeech::RBS => {
-            // Superlative adverbs are classified as KEYWORD with DEFAULT_LIBRARY modifier
+            // Superlative adverbs
             TokenTypeNModifier {
-                token_type: TokenType::KEYWORD as u32,
+                token_type: TokenType::ENUM_MEMBER as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DEFAULT_LIBRARY]),
             }
         }
         PartOfSpeech::RP => {
-            // Particles are classified as OPERATOR with no modifiers
+            // Particles
             TokenTypeNModifier {
                 token_type: TokenType::OPERATOR as u32,
-                token_modifiers_bitset: 0,
+                token_modifiers_bitset: modifiers_to_bitmap(&[]),
             }
         }
         PartOfSpeech::SYM => {
-            // Symbols are classified as OPERATOR with DOCUMENTATION modifier
+            // Symbols
             TokenTypeNModifier {
                 token_type: TokenType::OPERATOR as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DOCUMENTATION]),
             }
         }
         PartOfSpeech::TO => {
-            // "To" is classified as KEYWORD with STATIC modifier
+            // "To"
             TokenTypeNModifier {
                 token_type: TokenType::KEYWORD as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::STATIC]),
             }
         }
         PartOfSpeech::UH => {
-            // Interjections are classified as KEYWORD with DEPRECATED modifier
+            // Interjections
             TokenTypeNModifier {
                 token_type: TokenType::KEYWORD as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DEPRECATED]),
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::MODIFICATION]),
             }
         }
         PartOfSpeech::VB => {
-            // Base form verbs are classified as FUNCTION with no modifiers
+            // Base form verbs
             TokenTypeNModifier {
                 token_type: TokenType::FUNCTION as u32,
-                token_modifiers_bitset: 0,
+                token_modifiers_bitset: modifiers_to_bitmap(&[]),
             }
         }
         PartOfSpeech::VBD => {
-            // Past tense verbs are classified as FUNCTION with MODIFICATION modifier
+            // Past tense verbs
             TokenTypeNModifier {
                 token_type: TokenType::FUNCTION as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::MODIFICATION]),
             }
         }
         PartOfSpeech::VBG => {
-            // Gerund or present participle verbs are classified as FUNCTION with ASYNC modifier
+            // Gerund or present participle verbs
             TokenTypeNModifier {
                 token_type: TokenType::FUNCTION as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::ASYNC]),
             }
         }
         PartOfSpeech::VBN => {
-            // Past participle verbs are classified as FUNCTION with DEFAULT_LIBRARY modifier
+            // Past participle verbs
             TokenTypeNModifier {
-                token_type: TokenType::FUNCTION as u32,
+                token_type: TokenType::METHOD as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DEFAULT_LIBRARY]),
             }
         }
         PartOfSpeech::VBP => {
-            // Non-3rd person singular present verbs are classified as FUNCTION with READONLY modifier
+            // Non-3rd person singular present verbs
             TokenTypeNModifier {
                 token_type: TokenType::FUNCTION as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::READONLY]),
             }
         }
         PartOfSpeech::VBZ => {
-            // 3rd person singular present verbs are classified as FUNCTION with STATIC modifier
+            // 3rd person singular present verbs
             TokenTypeNModifier {
-                token_type: TokenType::FUNCTION as u32,
+                token_type: TokenType::METHOD as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::STATIC]),
             }
         }
         PartOfSpeech::WDT => {
-            // Wh-determiners are classified as KEYWORD with DOCUMENTATION modifier
+            // Wh-determiners
             TokenTypeNModifier {
                 token_type: TokenType::KEYWORD as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DOCUMENTATION]),
             }
         }
         PartOfSpeech::WP => {
-            // Wh-pronouns are classified as TYPE_PARAMETER with no modifiers
+            // Wh-pronouns
             TokenTypeNModifier {
-                token_type: TokenType::TYPE_PARAMETER as u32,
-                token_modifiers_bitset: 0,
+                token_type: TokenType::KEYWORD as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DEFAULT_LIBRARY]),
             }
         }
         PartOfSpeech::WRB => {
-            // Wh-adverbs are classified as KEYWORD with DEPRECATED modifier
+            // Wh-adverbs
             TokenTypeNModifier {
                 token_type: TokenType::KEYWORD as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DEPRECATED]),
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::ASYNC]),
             }
         }
     }
