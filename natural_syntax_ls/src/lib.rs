@@ -46,7 +46,7 @@ impl POSLS {
         }
     }
 
-    async fn on_change(&self, item: TextDocumentItem) {
+    async fn on_change(&self, item: TextItem) {
         self.document_registry
             .cast(DocumentInfo::Item(item))
             .await
@@ -54,7 +54,7 @@ impl POSLS {
     }
 }
 
-fn predict(model: Arc<POSModel>, item: TextDocumentItem, actor_ref: ActorRef<DocumentRegistry>) {
+fn predict(model: Arc<POSModel>, item: TextItem, actor_ref: ActorRef<DocumentRegistry>) {
     debug!(uri = item.uri.path(), item.version, "Predicting.");
     let mut tokens = model
         .predict(&item.text)
@@ -95,55 +95,52 @@ impl LanguageServer for POSLS {
 
     async fn did_open(
         &self,
-        DidOpenTextDocumentParams { text_document }: DidOpenTextDocumentParams,
+        DidOpenTextDocumentParams {
+            text_document: TextDocumentItem {
+                uri, version, text, ..
+            },
+        }: DidOpenTextDocumentParams,
     ) {
-        info!(uri = text_document.uri.path(), "Opened.");
-        self.on_change(TextDocumentItem {
-            uri: text_document.uri,
-            text: text_document.text,
-            version: text_document.version,
-        })
-        .await;
+        info!(uri = uri.path(), "Opened.");
+        self.on_change(TextItem { uri, text, version }).await;
     }
 
     async fn did_change(
         &self,
         DidChangeTextDocumentParams {
-            text_document,
+            text_document: VersionedTextDocumentIdentifier { uri, version },
             mut content_changes,
         }: DidChangeTextDocumentParams,
     ) {
-        info!(uri = text_document.uri.path(), "Changed.");
-        // TODO: Partial changes.
+        info!(uri = uri.path(), "Changed.");
         debug_assert_eq!(content_changes.len(), 1, "We only take full changes.");
-        self.on_change(TextDocumentItem {
-            uri: text_document.uri,
-            text: content_changes.pop().unwrap().text,
-            version: text_document.version,
-        })
-        .await
+        // TODO: Handle partial changes in `range`.
+        let TextDocumentContentChangeEvent { text, .. } = content_changes.pop().unwrap();
+        self.on_change(TextItem { uri, text, version }).await
     }
 
     async fn did_close(
         &self,
-        DidCloseTextDocumentParams { text_document }: DidCloseTextDocumentParams,
+        DidCloseTextDocumentParams {
+            text_document: TextDocumentIdentifier { uri },
+        }: DidCloseTextDocumentParams,
     ) {
-        info!(uri = text_document.uri.path(), "Closed.");
+        info!(uri = uri.path(), "Closed.");
         self.document_registry
-            .cast(DocumentInfo::Discard(text_document.uri))
+            .cast(DocumentInfo::Discard(uri))
             .await
             .unwrap();
     }
 
     async fn semantic_tokens_full(
         &self,
-        params: SemanticTokensParams,
+        SemanticTokensParams {
+            text_document: TextDocumentIdentifier { uri },
+            ..
+        }: SemanticTokensParams,
     ) -> JsonRes<Option<SemanticTokensResult>> {
-        info!(
-            uri = params.text_document.uri.path(),
-            "Full semantic tokens requested."
-        );
-        let maybe_data = self.document_registry.call(params.text_document.uri).await;
+        info!(uri = uri.path(), "Full semantic tokens requested.");
+        let maybe_data = self.document_registry.call(uri).await;
         Ok(maybe_data.ok().map(|data| {
             info!("Sending full semantic tokens.");
             SemanticTokensResult::Tokens(SemanticTokens {
@@ -191,7 +188,7 @@ fn semantic_tokens(text: &Rope, tokens: &[POSToken]) -> Vec<SemanticToken> {
 }
 
 #[derive(Clone, Debug)]
-struct TextDocumentItem {
+struct TextItem {
     uri: Url,
     text: String,
     version: i32,
@@ -208,7 +205,7 @@ fn server_capabilities() -> ServerCapabilities {
                     token_modifiers: semantic_token_modifiers(),
                 },
                 full: Some(SemanticTokensFullOptions::Bool(true)),
-                // range: Some(true), // TODO: Implement `semantic_tokens_range`
+                // NOTE: Neovim does not support `range`, so we do not either.
                 ..Default::default()
             },
         )),

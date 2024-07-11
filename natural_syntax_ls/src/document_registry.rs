@@ -17,7 +17,7 @@ impl DocumentRegistry {
 #[derive(Debug)]
 struct DocumentStore {
     /// The document waiting to be processed.
-    queued: Option<TextDocumentItem>,
+    queued: Option<TextItem>,
     /// If a document is being processed.
     processing: bool,
     /// The processed document.
@@ -98,7 +98,7 @@ impl Actor for DocumentRegistry {
 }
 
 fn schedule_document_processing(
-    item: TextDocumentItem,
+    item: TextItem,
     store: &mut DocumentStore,
     model: &Arc<POSModel>,
     ref_: &ActorRef<DocumentRegistry>,
@@ -118,7 +118,7 @@ fn schedule_document_processing(
 
 pub enum DocumentInfo {
     /// Document item from the language client.
-    Item(TextDocumentItem),
+    Item(TextItem),
     /// Predicted tokens for the document.
     Predicted(Url, Document),
     /// Forget about the document.
