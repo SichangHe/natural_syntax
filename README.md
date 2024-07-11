@@ -1,6 +1,6 @@
 # Natural Language Syntax Highlighting
 
-Natural-Language-LS is a language server that highlights different parts of
+Natural-Syntax-LS is a language server that highlights different parts of
 speech in plain text.
 
 ## Installation
@@ -78,7 +78,7 @@ so I do not wish to maintain plugins for them.
 
 However,
 it should be straightforward to implement plugins for them since
-mdBook-LS implements the Language Server Protocol (LSP).
+Natural-Syntax-LS implements the Language Server Protocol (LSP).
 So,
 please feel free to make a plugin yourself and create an issue for me to
 link it here.
