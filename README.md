@@ -60,6 +60,12 @@ local function natural_syntax_ls_setup(capabilities)
 end
 ```
 
+> I only set the `filetypes` field to `text`,
+> but you can enable natural-syntax-ls for any other file types as well.
+> Note that, though,
+> the language server's semantic tokens supersede Tree-sitter highlighting by
+> default.
+
 </details>
 
 ### ❓ Visual Studio Code and other editor setup
