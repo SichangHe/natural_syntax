@@ -1,5 +1,9 @@
 use super::*;
 
+mod two;
+
+use two::*;
+
 pub struct DocumentRegistry {
     model: Arc<POSModel>,
     documents: HashMap<Url, DocumentStore>,
@@ -22,8 +26,8 @@ struct DocumentStore {
     processing: bool,
     /// The processed document.
     document: Option<Document>,
-    /// Reply to be made after processing the document.
-    delayed_reply: Option<oneshot::Sender<Vec<SemanticToken>>>,
+    /// Replies to be made after processing the document.
+    delayed_replies: Two<oneshot::Sender<Vec<SemanticToken>>>,
     latest_version: i32,
 }
 
@@ -33,7 +37,7 @@ impl Default for DocumentStore {
             queued: Default::default(),
             processing: Default::default(),
             document: Default::default(),
-            delayed_reply: Default::default(),
+            delayed_replies: Default::default(),
             latest_version: i32::MIN,
         }
     }
@@ -61,7 +65,12 @@ impl Actor for DocumentRegistry {
                 debug!(uri = uri.path(), document.version, "Received prediction.");
                 if let Some(store) = self.documents.get_mut(&uri) {
                     store.processing = false;
-                    if let Some(reply) = store.delayed_reply.take() {
+                    let maybe_reply = match store.queued {
+                        // Leave one reply for after the new document is processed.
+                        Some(_) => store.delayed_replies.take_older(),
+                        None => store.delayed_replies.take_newer_n_clear(),
+                    };
+                    if let Some(reply) = maybe_reply {
                         debug!(uri = uri.path(), "Sending delayed reply.");
                         let tokens = semantic_tokens(&document.text, &document.tokens);
                         reply.send(tokens).drop_result();
@@ -91,7 +100,7 @@ impl Actor for DocumentRegistry {
                 let tokens = semantic_tokens(text, tokens);
                 reply_sender.send(tokens).drop_result();
             }
-            _ => store.delayed_reply = Some(reply_sender),
+            _ => _ = store.delayed_replies.push(reply_sender),
         }
         Ok(())
     }

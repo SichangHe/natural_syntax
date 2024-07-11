@@ -20,6 +20,9 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 insta = { opt-level = 3 }
 similar = { opt-level = 3 }
 
+[profile.release]
+lto = true
+
 [package]
 description.workspace = true
 edition.workspace = true
