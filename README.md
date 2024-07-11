@@ -88,12 +88,20 @@ When a prediction is ongoing,
 new updates are queued and
 the latest update replaces any previous updates queued.
 
+## Debugging
+
+We use `tracing-subscriber` with the `env-filter` feature to
+emit logs[^tracing-env-filter].
+Please configure the log level by setting the `RUST_LOG` environment variable.
+
 ## Future work
 
 - [ ] Customizing the mapping between part of speech and semantic token.
 - [ ] Support languages other than English. This simply requires a new model.
 - [ ] Incremental updates and semantic token ranges.
 - [ ] Do not overwrite Markdown/LaTeX syntax highlighting.
+
+[^tracing-env-filter]: <https://docs.rs/tracing-subscriber/latest/tracing_subscriber/#feature-flags>
 
 [download-torch]: https://docs.rs/rust-bert/0.22.0/rust_bert/#manual-installation-recommended
 [tch-static-linking]: https://github.com/LaurentMazare/tch-rs/tree/v2.1?tab=readme-ov-file#static-linking
