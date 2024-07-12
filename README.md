@@ -1,7 +1,7 @@
 # Natural Language Syntax Highlighting
 
 Natural-Syntax-LS is a language server that highlights different parts of
-speech in plain text.
+speech (POS) in plain text.
 
 ## Installation
 
@@ -37,7 +37,7 @@ speech in plain text.
 Please paste the below `natural_syntax_ls_setup` function in
 your Nvim configuration and call it with your client's `capabilities`.
 [Please see my config for an
-example](https://github.com/SichangHe/.config/blob/c24e81f10e3dd4c74e3885f5ed205027a9cfabdc/nvim/lua/plugins/lsp.lua#L291).
+example](https://github.com/SichangHe/.config/blob/b0961205a060d3588f56e97fd066a35424fe64a9/nvim/lua/plugins/lsp.lua#L301).
 
 <details><summary>The <code>natural_syntax_ls_setup</code> function.</summary>
 
@@ -55,18 +55,42 @@ local function natural_syntax_ls_setup(capabilities)
         },
     }
     lspconfig['natural_syntax_ls'].setup {
-        capabilities = capabilities,
+        capabilities,
+        init_options = {
+            token_map_update = {
+                -- Customize your POS-token mapping here. E.g.:
+                --[[
+                -- Disable coordinating conjunctions highlighting.
+                CC = vim.NIL, -- `nil` does not work because it gets ignored.
+                -- Highlight wh-determiners as enum members without any modifiers.
+                WDT = { type = "enumMember" },
+                -- Highlight determiners as read-only classes.
+                DT = { type = "class", modifiers = { "readonly" } },
+                ]]
+            },
+        },
     }
 end
 ```
 
-> I only set the `filetypes` field to `text`,
-> but you can enable natural-syntax-ls for any other file types as well.
-> Note that, though,
-> the language server's semantic tokens supersede Tree-sitter highlighting by
-> default.
-
 </details>
+
+Customizations:
+
+- I only set the `filetypes` field to `text`,
+    but you can enable natural-syntax-ls for any other file types as well.
+    Note that, though,
+    the language server's semantic tokens supersede Tree-sitter highlighting by
+    default.
+- By specifying the `token_map_update` field in `init_options`,
+    you can customize the mapping between parts of speech and semantic tokens.
+    - The default mapping is in the `pos2token_bits` function in
+        [`semantic_tokens.rs`][semantic_tokens.rs].
+    - Part of speech tags are the variants of the `PartOfSpeech` enum in
+        [`lib.rs`](https://github.com/SichangHe/natural_syntax/blob/main/src/lib.rs).
+    - Token types and modifiers are variants of `TokenType` and
+        `TokenModifier` in [`semantic_tokens.rs`][semantic_tokens.rs],
+        all in camelCase.
 
 ### ❓ Visual Studio Code and other editor setup
 
@@ -110,4 +134,5 @@ Please configure the log level by setting the `RUST_LOG` environment variable.
 [^tracing-env-filter]: <https://docs.rs/tracing-subscriber/latest/tracing_subscriber/#feature-flags>
 
 [download-torch]: https://docs.rs/rust-bert/0.22.0/rust_bert/#manual-installation-recommended
+[semantic_tokens.rs]: https://github.com/SichangHe/natural_syntax/blob/main/natural_syntax_ls/src/semantic_tokens.rs
 [tch-static-linking]: https://github.com/LaurentMazare/tch-rs/tree/v2.1?tab=readme-ov-file#static-linking

@@ -1,37 +1,35 @@
 // NOTE: Enum numeric values correspond to their indexes in
 // `SemanticTokensLegend`, and need to be incremental.
-use natural_syntax::PartOfSpeech;
-use num_derive::FromPrimitive;
-use num_traits::FromPrimitive;
-
 use super::*;
 
-#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
-#[derive(Copy, Clone, Debug, Eq, FromPrimitive, Hash, Ord, PartialEq, PartialOrd)]
+#[derive(
+    Copy, Clone, Debug, Eq, FromPrimitive, Hash, Ord, PartialEq, PartialOrd, Deserialize, Serialize,
+)]
+#[serde(rename_all = "camelCase")]
 pub enum TokenType {
-    NAMESPACE = 0,
-    TYPE = 1,
-    CLASS = 2,
-    ENUM = 3,
-    INTERFACE = 4,
-    STRUCT = 5,
-    TYPE_PARAMETER = 6,
-    PARAMETER = 7,
-    VARIABLE = 8,
-    PROPERTY = 9,
-    ENUM_MEMBER = 10,
-    EVENT = 11,
-    FUNCTION = 12,
-    METHOD = 13,
-    MACRO = 14,
-    KEYWORD = 15,
-    MODIFIER = 16,
-    COMMENT = 17,
-    STRING = 18,
-    NUMBER = 19,
-    REGEXP = 20,
-    OPERATOR = 21,
-    DECORATOR = 22,
+    Namespace = 0,
+    Type = 1,
+    Class = 2,
+    Enum = 3,
+    Interface = 4,
+    Struct = 5,
+    TypeParameter = 6,
+    Parameter = 7,
+    Variable = 8,
+    Property = 9,
+    EnumMember = 10,
+    Event = 11,
+    Function = 12,
+    Method = 13,
+    Macro = 14,
+    Keyword = 15,
+    Modifier = 16,
+    Comment = 17,
+    String = 18,
+    Number = 19,
+    Regexp = 20,
+    Operator = 21,
+    Decorator = 22,
 }
 
 pub const N_TOKEN_TYPES: u8 = 23;
@@ -45,46 +43,48 @@ pub fn semantic_token_types() -> Vec<SemanticTokenType> {
 impl From<TokenType> for SemanticTokenType {
     fn from(val: TokenType) -> Self {
         match val {
-            TokenType::NAMESPACE => SemanticTokenType::NAMESPACE,
-            TokenType::TYPE => SemanticTokenType::TYPE,
-            TokenType::CLASS => SemanticTokenType::CLASS,
-            TokenType::ENUM => SemanticTokenType::ENUM,
-            TokenType::INTERFACE => SemanticTokenType::INTERFACE,
-            TokenType::STRUCT => SemanticTokenType::STRUCT,
-            TokenType::TYPE_PARAMETER => SemanticTokenType::TYPE_PARAMETER,
-            TokenType::PARAMETER => SemanticTokenType::PARAMETER,
-            TokenType::VARIABLE => SemanticTokenType::VARIABLE,
-            TokenType::PROPERTY => SemanticTokenType::PROPERTY,
-            TokenType::ENUM_MEMBER => SemanticTokenType::ENUM_MEMBER,
-            TokenType::EVENT => SemanticTokenType::EVENT,
-            TokenType::FUNCTION => SemanticTokenType::FUNCTION,
-            TokenType::METHOD => SemanticTokenType::METHOD,
-            TokenType::MACRO => SemanticTokenType::MACRO,
-            TokenType::KEYWORD => SemanticTokenType::KEYWORD,
-            TokenType::MODIFIER => SemanticTokenType::MODIFIER,
-            TokenType::COMMENT => SemanticTokenType::COMMENT,
-            TokenType::STRING => SemanticTokenType::STRING,
-            TokenType::NUMBER => SemanticTokenType::NUMBER,
-            TokenType::REGEXP => SemanticTokenType::REGEXP,
-            TokenType::OPERATOR => SemanticTokenType::OPERATOR,
-            TokenType::DECORATOR => SemanticTokenType::DECORATOR,
+            TokenType::Namespace => SemanticTokenType::NAMESPACE,
+            TokenType::Type => SemanticTokenType::TYPE,
+            TokenType::Class => SemanticTokenType::CLASS,
+            TokenType::Enum => SemanticTokenType::ENUM,
+            TokenType::Interface => SemanticTokenType::INTERFACE,
+            TokenType::Struct => SemanticTokenType::STRUCT,
+            TokenType::TypeParameter => SemanticTokenType::TYPE_PARAMETER,
+            TokenType::Parameter => SemanticTokenType::PARAMETER,
+            TokenType::Variable => SemanticTokenType::VARIABLE,
+            TokenType::Property => SemanticTokenType::PROPERTY,
+            TokenType::EnumMember => SemanticTokenType::ENUM_MEMBER,
+            TokenType::Event => SemanticTokenType::EVENT,
+            TokenType::Function => SemanticTokenType::FUNCTION,
+            TokenType::Method => SemanticTokenType::METHOD,
+            TokenType::Macro => SemanticTokenType::MACRO,
+            TokenType::Keyword => SemanticTokenType::KEYWORD,
+            TokenType::Modifier => SemanticTokenType::MODIFIER,
+            TokenType::Comment => SemanticTokenType::COMMENT,
+            TokenType::String => SemanticTokenType::STRING,
+            TokenType::Number => SemanticTokenType::NUMBER,
+            TokenType::Regexp => SemanticTokenType::REGEXP,
+            TokenType::Operator => SemanticTokenType::OPERATOR,
+            TokenType::Decorator => SemanticTokenType::DECORATOR,
         }
     }
 }
 
-#[allow(non_camel_case_types, clippy::upper_case_acronyms)]
-#[derive(Copy, Clone, Debug, Eq, FromPrimitive, Hash, Ord, PartialEq, PartialOrd)]
+#[derive(
+    Copy, Clone, Debug, Eq, FromPrimitive, Hash, Ord, PartialEq, PartialOrd, Deserialize, Serialize,
+)]
+#[serde(rename_all = "camelCase")]
 pub enum TokenModifier {
-    DECLARATION = 0,
-    DEFINITION = 1,
-    READONLY = 2,
-    STATIC = 3,
-    DEPRECATED = 4,
-    ABSTRACT = 5,
-    ASYNC = 6,
-    MODIFICATION = 7,
-    DOCUMENTATION = 8,
-    DEFAULT_LIBRARY = 9,
+    Declaration = 0,
+    Definition = 1,
+    Readonly = 2,
+    Static = 3,
+    Deprecated = 4,
+    Abstract = 5,
+    Async = 6,
+    Modification = 7,
+    Documentation = 8,
+    DefaultLibrary = 9,
 }
 
 pub const N_TOKEN_MODIFIERS: u8 = 10;
@@ -98,264 +98,263 @@ pub fn semantic_token_modifiers() -> Vec<SemanticTokenModifier> {
 impl From<TokenModifier> for SemanticTokenModifier {
     fn from(val: TokenModifier) -> Self {
         match val {
-            TokenModifier::DECLARATION => SemanticTokenModifier::DECLARATION,
-            TokenModifier::DEFINITION => SemanticTokenModifier::DEFINITION,
-            TokenModifier::READONLY => SemanticTokenModifier::READONLY,
-            TokenModifier::STATIC => SemanticTokenModifier::STATIC,
-            TokenModifier::DEPRECATED => SemanticTokenModifier::DEPRECATED,
-            TokenModifier::ABSTRACT => SemanticTokenModifier::ABSTRACT,
-            TokenModifier::ASYNC => SemanticTokenModifier::ASYNC,
-            TokenModifier::MODIFICATION => SemanticTokenModifier::MODIFICATION,
-            TokenModifier::DOCUMENTATION => SemanticTokenModifier::DOCUMENTATION,
-            TokenModifier::DEFAULT_LIBRARY => SemanticTokenModifier::DEFAULT_LIBRARY,
+            TokenModifier::Declaration => SemanticTokenModifier::DECLARATION,
+            TokenModifier::Definition => SemanticTokenModifier::DEFINITION,
+            TokenModifier::Readonly => SemanticTokenModifier::READONLY,
+            TokenModifier::Static => SemanticTokenModifier::STATIC,
+            TokenModifier::Deprecated => SemanticTokenModifier::DEPRECATED,
+            TokenModifier::Abstract => SemanticTokenModifier::ABSTRACT,
+            TokenModifier::Async => SemanticTokenModifier::ASYNC,
+            TokenModifier::Modification => SemanticTokenModifier::MODIFICATION,
+            TokenModifier::Documentation => SemanticTokenModifier::DOCUMENTATION,
+            TokenModifier::DefaultLibrary => SemanticTokenModifier::DEFAULT_LIBRARY,
         }
     }
 }
 
-// NOTE: This function is originally generated by ChatGPT;
-// it might have made unreasonable assumptions.
-pub const fn token_type_n_modifiers(pos: PartOfSpeech) -> TokenTypeNModifier {
-    // Match the PartOfSpeech enum to TokenType and modifiers
+/// The default mapping from part of speech to semantic token types and
+/// modifiers.
+pub const fn pos2token_bits(pos: PartOfSpeech) -> TokenBits {
     match pos {
         PartOfSpeech::CC => {
             // Coordinating conjunctions
-            TokenTypeNModifier {
-                token_type: TokenType::KEYWORD as u32,
+            TokenBits {
+                token_type: TokenType::Keyword as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[]),
             }
         }
         PartOfSpeech::CD => {
             // Cardinal numbers
-            TokenTypeNModifier {
-                token_type: TokenType::NUMBER as u32,
+            TokenBits {
+                token_type: TokenType::Number as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[]),
             }
         }
         PartOfSpeech::DT => {
             // Determiners
-            TokenTypeNModifier {
-                token_type: TokenType::STRING as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DOCUMENTATION]),
+            TokenBits {
+                token_type: TokenType::String as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Documentation]),
             }
         }
         PartOfSpeech::EX => {
             // Existential "there"
-            TokenTypeNModifier {
-                token_type: TokenType::KEYWORD as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DEFINITION]),
+            TokenBits {
+                token_type: TokenType::Keyword as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Definition]),
             }
         }
         PartOfSpeech::FW => {
             // Foreign words
-            TokenTypeNModifier {
-                token_type: TokenType::STRING as u32,
+            TokenBits {
+                token_type: TokenType::String as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[]),
             }
         }
         PartOfSpeech::IN => {
             // Prepositions
-            TokenTypeNModifier {
-                token_type: TokenType::COMMENT as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::ASYNC]),
+            TokenBits {
+                token_type: TokenType::Comment as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Async]),
             }
         }
         PartOfSpeech::JJ => {
             // Adjectives
-            TokenTypeNModifier {
-                token_type: TokenType::TYPE as u32,
+            TokenBits {
+                token_type: TokenType::Type as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[]),
             }
         }
         PartOfSpeech::JJR => {
             // Comparative adjectives
-            TokenTypeNModifier {
-                token_type: TokenType::STRUCT as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::MODIFICATION]),
+            TokenBits {
+                token_type: TokenType::Struct as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Modification]),
             }
         }
         PartOfSpeech::JJS => {
             // Superlative adjectives
-            TokenTypeNModifier {
-                token_type: TokenType::INTERFACE as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DEFAULT_LIBRARY]),
+            TokenBits {
+                token_type: TokenType::Interface as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DefaultLibrary]),
             }
         }
         PartOfSpeech::MD => {
             // Modals
-            TokenTypeNModifier {
-                token_type: TokenType::KEYWORD as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::READONLY]),
+            TokenBits {
+                token_type: TokenType::Keyword as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Readonly]),
             }
         }
         PartOfSpeech::NN => {
             // Nouns (singular or mass)
-            TokenTypeNModifier {
-                token_type: TokenType::PARAMETER as u32,
+            TokenBits {
+                token_type: TokenType::Parameter as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[]),
             }
         }
         PartOfSpeech::NNP => {
             // Proper nouns (singular)
-            TokenTypeNModifier {
-                token_type: TokenType::PARAMETER as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DECLARATION]),
+            TokenBits {
+                token_type: TokenType::Parameter as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Declaration]),
             }
         }
         PartOfSpeech::NNPS => {
             // Proper nouns (plural)
-            TokenTypeNModifier {
-                token_type: TokenType::PARAMETER as u32,
+            TokenBits {
+                token_type: TokenType::Parameter as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[
-                    TokenModifier::DECLARATION,
-                    TokenModifier::MODIFICATION,
+                    TokenModifier::Declaration,
+                    TokenModifier::Modification,
                 ]),
             }
         }
         PartOfSpeech::NNS => {
             // Nouns (plural)
-            TokenTypeNModifier {
-                token_type: TokenType::PARAMETER as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::MODIFICATION]),
+            TokenBits {
+                token_type: TokenType::Parameter as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Modification]),
             }
         }
         PartOfSpeech::O => {
             // Other (not a part of speech)
-            TokenTypeNModifier {
-                token_type: TokenType::COMMENT as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DEPRECATED]),
+            TokenBits {
+                token_type: TokenType::Comment as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Deprecated]),
             }
         }
         PartOfSpeech::PDT => {
             // Predeterminers
-            TokenTypeNModifier {
-                token_type: TokenType::STRING as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::ABSTRACT]),
+            TokenBits {
+                token_type: TokenType::String as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Abstract]),
             }
         }
         PartOfSpeech::POS => {
             // Possessive endings
-            TokenTypeNModifier {
-                token_type: TokenType::PROPERTY as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DECLARATION]),
+            TokenBits {
+                token_type: TokenType::Property as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Declaration]),
             }
         }
         PartOfSpeech::PRP => {
             // Personal pronouns
-            TokenTypeNModifier {
-                token_type: TokenType::PROPERTY as u32,
+            TokenBits {
+                token_type: TokenType::Property as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[]),
             }
         }
         PartOfSpeech::RB => {
             // Adverbs
-            TokenTypeNModifier {
-                token_type: TokenType::ENUM_MEMBER as u32,
+            TokenBits {
+                token_type: TokenType::EnumMember as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[]),
             }
         }
         PartOfSpeech::RBR => {
             // Comparative adverbs
-            TokenTypeNModifier {
-                token_type: TokenType::ENUM_MEMBER as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::ASYNC]),
+            TokenBits {
+                token_type: TokenType::EnumMember as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Async]),
             }
         }
         PartOfSpeech::RBS => {
             // Superlative adverbs
-            TokenTypeNModifier {
-                token_type: TokenType::ENUM_MEMBER as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DEFAULT_LIBRARY]),
+            TokenBits {
+                token_type: TokenType::EnumMember as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DefaultLibrary]),
             }
         }
         PartOfSpeech::RP => {
             // Particles
-            TokenTypeNModifier {
-                token_type: TokenType::OPERATOR as u32,
+            TokenBits {
+                token_type: TokenType::Operator as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[]),
             }
         }
         PartOfSpeech::SYM => {
             // Symbols
-            TokenTypeNModifier {
-                token_type: TokenType::OPERATOR as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DOCUMENTATION]),
+            TokenBits {
+                token_type: TokenType::Operator as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Documentation]),
             }
         }
         PartOfSpeech::TO => {
             // "To"
-            TokenTypeNModifier {
-                token_type: TokenType::KEYWORD as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::STATIC]),
+            TokenBits {
+                token_type: TokenType::Keyword as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Static]),
             }
         }
         PartOfSpeech::UH => {
             // Interjections
-            TokenTypeNModifier {
-                token_type: TokenType::KEYWORD as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::MODIFICATION]),
+            TokenBits {
+                token_type: TokenType::Keyword as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Modification]),
             }
         }
         PartOfSpeech::VB => {
             // Base form verbs
-            TokenTypeNModifier {
-                token_type: TokenType::FUNCTION as u32,
+            TokenBits {
+                token_type: TokenType::Function as u32,
                 token_modifiers_bitset: modifiers_to_bitmap(&[]),
             }
         }
         PartOfSpeech::VBD => {
             // Past tense verbs
-            TokenTypeNModifier {
-                token_type: TokenType::FUNCTION as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::MODIFICATION]),
+            TokenBits {
+                token_type: TokenType::Function as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Modification]),
             }
         }
         PartOfSpeech::VBG => {
             // Gerund or present participle verbs
-            TokenTypeNModifier {
-                token_type: TokenType::FUNCTION as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::ASYNC]),
+            TokenBits {
+                token_type: TokenType::Function as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Async]),
             }
         }
         PartOfSpeech::VBN => {
             // Past participle verbs
-            TokenTypeNModifier {
-                token_type: TokenType::METHOD as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DEFAULT_LIBRARY]),
+            TokenBits {
+                token_type: TokenType::Method as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DefaultLibrary]),
             }
         }
         PartOfSpeech::VBP => {
             // Non-3rd person singular present verbs
-            TokenTypeNModifier {
-                token_type: TokenType::FUNCTION as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::READONLY]),
+            TokenBits {
+                token_type: TokenType::Function as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Readonly]),
             }
         }
         PartOfSpeech::VBZ => {
             // 3rd person singular present verbs
-            TokenTypeNModifier {
-                token_type: TokenType::METHOD as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::STATIC]),
+            TokenBits {
+                token_type: TokenType::Method as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Static]),
             }
         }
         PartOfSpeech::WDT => {
             // Wh-determiners
-            TokenTypeNModifier {
-                token_type: TokenType::KEYWORD as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DOCUMENTATION]),
+            TokenBits {
+                token_type: TokenType::Keyword as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Documentation]),
             }
         }
         PartOfSpeech::WP => {
             // Wh-pronouns
-            TokenTypeNModifier {
-                token_type: TokenType::KEYWORD as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DEFAULT_LIBRARY]),
+            TokenBits {
+                token_type: TokenType::Keyword as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::DefaultLibrary]),
             }
         }
         PartOfSpeech::WRB => {
             // Wh-adverbs
-            TokenTypeNModifier {
-                token_type: TokenType::KEYWORD as u32,
-                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::ASYNC]),
+            TokenBits {
+                token_type: TokenType::Keyword as u32,
+                token_modifiers_bitset: modifiers_to_bitmap(&[TokenModifier::Async]),
             }
         }
     }
@@ -373,7 +372,8 @@ pub const fn modifiers_to_bitmap(modifiers: &[TokenModifier]) -> u32 {
     bitmap
 }
 
-pub struct TokenTypeNModifier {
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+pub struct TokenBits {
     pub token_type: u32,
     pub token_modifiers_bitset: u32,
 }

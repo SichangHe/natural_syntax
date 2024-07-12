@@ -2,8 +2,11 @@ use std::{collections::HashMap, mem, sync::Arc};
 
 use anyhow::Result;
 use drop_this::*;
-use natural_syntax::{POSModel, POSToken};
+use natural_syntax::{POSModel, POSToken, PartOfSpeech, N_PART_OF_SPEECH};
+use num::FromPrimitive;
+use num_derive::FromPrimitive;
 use ropey::Rope;
+use serde::{Deserialize, Serialize};
 use tokio::{
     io::{stdin, stdout},
     sync::oneshot,
@@ -16,9 +19,11 @@ use tower_lsp::{
 
 mod document_registry;
 mod semantic_tokens;
+mod token_mapping;
 
 use document_registry::*;
 use semantic_tokens::*;
+use token_mapping::*;
 use tracing::{debug, error, info};
 
 /// Run the Part of Speech Language Server that provides highlighting.
@@ -86,7 +91,32 @@ pub fn filter_token(token: &POSToken) -> bool {
 
 #[tower_lsp::async_trait]
 impl LanguageServer for POSLS {
-    async fn initialize(&self, _params: InitializeParams) -> JsonRes<InitializeResult> {
+    async fn initialize(
+        &self,
+        InitializeParams {
+            initialization_options,
+            ..
+        }: InitializeParams,
+    ) -> JsonRes<InitializeResult> {
+        if let Some(InitializationOptions {
+            token_map_update: Some(update),
+        }) = initialization_options.and_then(|options| {
+            serde_json::from_value(options)
+                .map_err(|err| {
+                    error!(?err, "Initialization options.");
+                    self.client.log_message(
+                        MessageType::ERROR,
+                        format!("Invalid initialization options: {err:?}"),
+                    )
+                })
+                .ok()
+        }) {
+            debug!(?update, "Token map options.");
+            self.document_registry
+                .cast(DocumentInfo::TokenMapUpdate(update))
+                .await
+                .unwrap();
+        }
         Ok(InitializeResult {
             capabilities: server_capabilities(),
             ..Default::default()
@@ -151,39 +181,53 @@ impl LanguageServer for POSLS {
     }
 
     async fn shutdown(&self) -> JsonRes<()> {
-        self.client // Placeholder to make `self.client` used.
-            .log_message(MessageType::WARNING, "Exiting.")
-            .await;
         Ok(())
     }
 }
 
-fn semantic_tokens(text: &Rope, tokens: &[POSToken]) -> Vec<SemanticToken> {
+#[derive(Deserialize)]
+struct InitializationOptions {
+    token_map_update: Option<HashMap<PartOfSpeech, Option<TokenTypeNModifiers>>>,
+}
+
+fn semantic_tokens(
+    text: &Rope,
+    tokens: &[POSToken],
+    token_map: &token_mapping::TokenMap,
+) -> Vec<SemanticToken> {
     let mut i_prev_start = 0;
     let mut slice = text.slice(..);
     tokens
         .iter()
-        .map(|token| {
-            let relative_i_char = token.offset_begin - i_prev_start;
-            let relative_i_line = slice.char_to_line(relative_i_char as usize);
-            let delta_start = match relative_i_line {
-                0 => relative_i_char,
-                _ => {
-                    let i_1st_char_of_line = slice.line_to_char(relative_i_line);
-                    relative_i_char - i_1st_char_of_line as u32
+        .filter_map(|token| token_map.get(token.tag).map(|bits| (token, bits)))
+        .map(
+            |(
+                token,
+                TokenBits {
+                    token_type,
+                    token_modifiers_bitset,
+                },
+            )| {
+                let relative_i_char = token.offset_begin - i_prev_start;
+                let relative_i_line = slice.char_to_line(relative_i_char as usize);
+                let delta_start = match relative_i_line {
+                    0 => relative_i_char,
+                    _ => {
+                        let i_1st_char_of_line = slice.line_to_char(relative_i_line);
+                        relative_i_char - i_1st_char_of_line as u32
+                    }
+                };
+                i_prev_start = token.offset_begin;
+                slice = slice.slice((relative_i_char as usize)..);
+                SemanticToken {
+                    delta_line: relative_i_line as u32,
+                    delta_start,
+                    length: token.offset_end - token.offset_begin,
+                    token_type,
+                    token_modifiers_bitset,
                 }
-            };
-            i_prev_start = token.offset_begin;
-            slice = slice.slice((relative_i_char as usize)..);
-            let type_n_modifiers = token_type_n_modifiers(token.tag);
-            SemanticToken {
-                delta_line: relative_i_line as u32,
-                delta_start,
-                length: token.offset_end - token.offset_begin,
-                token_type: type_n_modifiers.token_type,
-                token_modifiers_bitset: type_n_modifiers.token_modifiers_bitset,
-            }
-        })
+            },
+        )
         .collect()
 }
 

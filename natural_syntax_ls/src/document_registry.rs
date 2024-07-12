@@ -7,6 +7,7 @@ use two::*;
 pub struct DocumentRegistry {
     model: Arc<POSModel>,
     documents: HashMap<Url, DocumentStore>,
+    token_map: TokenMap,
 }
 
 impl DocumentRegistry {
@@ -14,6 +15,7 @@ impl DocumentRegistry {
         Self {
             model,
             documents: Default::default(),
+            token_map: Default::default(),
         }
     }
 }
@@ -72,7 +74,8 @@ impl Actor for DocumentRegistry {
                     };
                     if let Some(reply) = maybe_reply {
                         debug!(uri = uri.path(), "Sending delayed reply.");
-                        let tokens = semantic_tokens(&document.text, &document.tokens);
+                        let tokens =
+                            semantic_tokens(&document.text, &document.tokens, &self.token_map);
                         reply.send(tokens).drop_result();
                     }
                     store.document = Some(document);
@@ -84,6 +87,7 @@ impl Actor for DocumentRegistry {
                 }
             }
             DocumentInfo::Discard(uri) => _ = self.documents.remove(&uri),
+            DocumentInfo::TokenMapUpdate(update) => self.token_map.extend(update),
         }
         Ok(())
     }
@@ -97,7 +101,7 @@ impl Actor for DocumentRegistry {
         let store = self.documents.entry(msg).or_default();
         match (store.processing, &store.document) {
             (false, Some(Document { text, tokens, .. })) => {
-                let tokens = semantic_tokens(text, tokens);
+                let tokens = semantic_tokens(text, tokens, &self.token_map);
                 reply_sender.send(tokens).drop_result();
             }
             _ => _ = store.delayed_replies.push(reply_sender),
@@ -132,4 +136,6 @@ pub enum DocumentInfo {
     Predicted(Url, Document),
     /// Forget about the document.
     Discard(Url),
+    /// Instruction to update the token map.
+    TokenMapUpdate(HashMap<PartOfSpeech, Option<TokenTypeNModifiers>>),
 }

@@ -64,7 +64,7 @@ fn convert_tokens() {
         .collect::<Vec<_>>();
     round_scores(&mut tokens);
     let text = Rope::from_str(input);
-    let semantic_tokens = semantic_tokens(&text, &tokens);
+    let semantic_tokens = semantic_tokens(&text, &tokens, &Default::default());
     let combined = tokens.into_iter().zip(semantic_tokens).collect::<Vec<_>>();
     assert_debug_snapshot!(combined);
 }

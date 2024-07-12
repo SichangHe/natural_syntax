@@ -15,13 +15,15 @@ path = "src/main.rs"
 anyhow.workspace = true
 drop_this = "0.0"
 natural_syntax.workspace = true
-num = "0.4"
-num-derive = "0.4"
-num-traits = "0.2"
+num.workspace = true
+num-derive.workspace = true
+num-traits.workspace = true
 ropey = { version = "1", default-features = false, features = [
     "cr_lines",
     "simd",
 ] } # Disable `unicode_lines` to match language client line counting.
+serde.workspace = true
+serde_json = "1"
 tokio = { version = "1", features = [
     "macros",
     "rt-multi-thread",

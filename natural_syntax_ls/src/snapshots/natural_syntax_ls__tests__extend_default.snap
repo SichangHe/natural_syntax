@@ -1,0 +1,207 @@
+---
+source: natural_syntax_ls/src/tests.rs
+expression: token_map
+---
+TokenMap(
+    {
+        FW: Some(
+            TokenBits {
+                token_type: 18,
+                token_modifiers_bitset: 0,
+            },
+        ),
+        NNP: Some(
+            TokenBits {
+                token_type: 7,
+                token_modifiers_bitset: 1,
+            },
+        ),
+        NNPS: Some(
+            TokenBits {
+                token_type: 7,
+                token_modifiers_bitset: 129,
+            },
+        ),
+        RBR: Some(
+            TokenBits {
+                token_type: 10,
+                token_modifiers_bitset: 64,
+            },
+        ),
+        RB: Some(
+            TokenBits {
+                token_type: 10,
+                token_modifiers_bitset: 0,
+            },
+        ),
+        SYM: Some(
+            TokenBits {
+                token_type: 21,
+                token_modifiers_bitset: 256,
+            },
+        ),
+        CD: Some(
+            TokenBits {
+                token_type: 19,
+                token_modifiers_bitset: 0,
+            },
+        ),
+        VBN: Some(
+            TokenBits {
+                token_type: 13,
+                token_modifiers_bitset: 512,
+            },
+        ),
+        WP: Some(
+            TokenBits {
+                token_type: 15,
+                token_modifiers_bitset: 512,
+            },
+        ),
+        IN: None,
+        VB: Some(
+            TokenBits {
+                token_type: 12,
+                token_modifiers_bitset: 0,
+            },
+        ),
+        UH: Some(
+            TokenBits {
+                token_type: 15,
+                token_modifiers_bitset: 128,
+            },
+        ),
+        NN: Some(
+            TokenBits {
+                token_type: 7,
+                token_modifiers_bitset: 0,
+            },
+        ),
+        VBD: Some(
+            TokenBits {
+                token_type: 12,
+                token_modifiers_bitset: 128,
+            },
+        ),
+        RP: Some(
+            TokenBits {
+                token_type: 21,
+                token_modifiers_bitset: 0,
+            },
+        ),
+        JJ: Some(
+            TokenBits {
+                token_type: 1,
+                token_modifiers_bitset: 0,
+            },
+        ),
+        VBZ: Some(
+            TokenBits {
+                token_type: 13,
+                token_modifiers_bitset: 8,
+            },
+        ),
+        JJR: Some(
+            TokenBits {
+                token_type: 5,
+                token_modifiers_bitset: 128,
+            },
+        ),
+        MD: Some(
+            TokenBits {
+                token_type: 15,
+                token_modifiers_bitset: 4,
+            },
+        ),
+        TO: Some(
+            TokenBits {
+                token_type: 10,
+                token_modifiers_bitset: 0,
+            },
+        ),
+        POS: Some(
+            TokenBits {
+                token_type: 9,
+                token_modifiers_bitset: 1,
+            },
+        ),
+        NNS: Some(
+            TokenBits {
+                token_type: 7,
+                token_modifiers_bitset: 128,
+            },
+        ),
+        CC: Some(
+            TokenBits {
+                token_type: 16,
+                token_modifiers_bitset: 4,
+            },
+        ),
+        VBG: Some(
+            TokenBits {
+                token_type: 12,
+                token_modifiers_bitset: 64,
+            },
+        ),
+        WDT: Some(
+            TokenBits {
+                token_type: 15,
+                token_modifiers_bitset: 256,
+            },
+        ),
+        PRP: Some(
+            TokenBits {
+                token_type: 9,
+                token_modifiers_bitset: 0,
+            },
+        ),
+        JJS: Some(
+            TokenBits {
+                token_type: 4,
+                token_modifiers_bitset: 512,
+            },
+        ),
+        RBS: Some(
+            TokenBits {
+                token_type: 10,
+                token_modifiers_bitset: 512,
+            },
+        ),
+        O: Some(
+            TokenBits {
+                token_type: 17,
+                token_modifiers_bitset: 16,
+            },
+        ),
+        DT: Some(
+            TokenBits {
+                token_type: 18,
+                token_modifiers_bitset: 256,
+            },
+        ),
+        WRB: Some(
+            TokenBits {
+                token_type: 15,
+                token_modifiers_bitset: 64,
+            },
+        ),
+        EX: Some(
+            TokenBits {
+                token_type: 15,
+                token_modifiers_bitset: 2,
+            },
+        ),
+        VBP: Some(
+            TokenBits {
+                token_type: 12,
+                token_modifiers_bitset: 4,
+            },
+        ),
+        PDT: Some(
+            TokenBits {
+                token_type: 18,
+                token_modifiers_bitset: 32,
+            },
+        ),
+    },
+)
