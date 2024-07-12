@@ -11,8 +11,7 @@ speech (POS) in plain text.
 
     You can figure out the URL to download `libtorch` [in tch-rs' build
     script](https://github.com/LaurentMazare/tch-rs/blob/5480d6fd4be12e748e0d87555db54a5f6e74edf2/torch-sys/build.rs#L311).
-    If you are too lazy to set up environment variables,
-    you can simply download the libraries to `/usr/local/lib/`.
+    The `LIBTORCH` variable should be the `torch/` directory.
 
     </details>
     <details><summary>Why automatic installation does not work.</summary>
@@ -123,6 +122,8 @@ the latest update replaces any previous updates queued.
 We use `tracing-subscriber` with the `env-filter` feature to
 emit logs[^tracing-env-filter].
 Please configure the log level by setting the `RUST_LOG` environment variable.
+
+On macOS, you may need to set `DYLD_LIBRARY_PATH` to run the tests.
 
 ## Future work
 
