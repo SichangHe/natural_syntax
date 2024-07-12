@@ -50,7 +50,7 @@ tracing-subscriber.workspace = true
 
 [features]
 # FIXME: Do not download libtorch, figure out how to use the system libtorch.
-default = ["num", "rust-bert-download-libtorch", "serde"]
+default = ["num", "serde"]
 num = ["dep:num-derive", "dep:num-traits"]
-rust-bert-download-libtorch = ["rust-bert/download-libtorch"]
+download-libtorch = ["rust-bert/download-libtorch"]
 serde = ["dep:serde"]
