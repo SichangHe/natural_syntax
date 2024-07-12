@@ -30,11 +30,11 @@ speech (POS) in plain text.
     get the `natural-syntax-ls` binary:
 
     ```sh
-    cargo install natural_syntax_ls --default-features=false
+    cargo install natural_syntax_ls --no-default-features
     ```
 
-    Setting the `default-features` to
-    `false` disables downloading `libtorch` (automatic installation).
+    Setting `--no-default-features` disables downloading `libtorch`
+    (automatic installation).
 
     <details><summary>Why automatic installation is the default.</summary>
 
