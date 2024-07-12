@@ -1,5 +1,6 @@
 use std::str::FromStr;
 
+use num_derive::{FromPrimitive, ToPrimitive};
 use rust_bert::{
     pipelines::{
         pos_tagging::POSConfig,
@@ -110,77 +111,80 @@ impl TryFrom<Token> for POSToken {
 // NOTE: ChatGPT generated the docstrings, so they may be inaccurate.
 #[derive(Copy, Clone, Debug, Default, Eq, Hash, Ord, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
+#[cfg_attr(feature = "num", derive(FromPrimitive, ToPrimitive))]
 pub enum PartOfSpeech {
     /// Coordinating conjunction
-    CC,
+    CC = 0,
     /// Cardinal number
-    CD,
+    CD = 1,
     /// Determiner
-    DT,
+    DT = 2,
     /// Existential there
-    EX,
+    EX = 3,
     /// Foreign word
-    FW,
+    FW = 4,
     /// Preposition or subordinating conjunction
-    IN,
+    IN = 5,
     /// Adjective
-    JJ,
+    JJ = 6,
     /// Adjective, comparative
-    JJR,
+    JJR = 7,
     /// Adjective, superlative
-    JJS,
+    JJS = 8,
     /// Modal
-    MD,
+    MD = 9,
     /// Noun, singular or mass
-    NN,
+    NN = 10,
     /// Proper noun, singular
-    NNP,
+    NNP = 11,
     /// Proper noun, plural
-    NNPS,
+    NNPS = 12,
     /// Noun, plural
-    NNS,
+    NNS = 13,
     /// Other (not a part of speech)
     #[default]
-    O,
+    O = 14,
     /// Predeterminer
-    PDT,
+    PDT = 15,
     /// Possessive ending
-    POS,
+    POS = 16,
     /// Personal pronoun
-    PRP,
+    PRP = 17,
     /// Adverb
-    RB,
+    RB = 18,
     /// Adverb, comparative
-    RBR,
+    RBR = 19,
     /// Adverb, superlative
-    RBS,
+    RBS = 20,
     /// Particle
-    RP,
+    RP = 21,
     /// Symbol
-    SYM,
+    SYM = 22,
     /// to
-    TO,
+    TO = 23,
     /// Interjection
-    UH,
+    UH = 24,
     /// Verb, base form
-    VB,
+    VB = 25,
     /// Verb, past tense
-    VBD,
+    VBD = 26,
     /// Verb, gerund or present participle
-    VBG,
+    VBG = 27,
     /// Verb, past participle
-    VBN,
+    VBN = 28,
     /// Verb, non-3rd person singular present
-    VBP,
+    VBP = 29,
     /// Verb, 3rd person singular present
-    VBZ,
+    VBZ = 30,
     /// Wh-determiner
-    WDT,
+    WDT = 31,
     /// Wh-pronoun
-    WP,
+    WP = 32,
     /// Wh-adverb
-    WRB,
+    WRB = 33,
 }
+
+pub const N_PART_OF_SPEECH: u8 = 34;
 
 impl FromStr for PartOfSpeech {
     type Err = PartOfSpeechError;
