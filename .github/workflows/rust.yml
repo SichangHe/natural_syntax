@@ -22,7 +22,7 @@ jobs:
           path: ~/.cargo/registry/cache/
           key: rust-${{ hashFiles('Cargo.toml') }}
       - uses: mozilla-actions/sccache-action@v0.0.3
-      - run: cargo test -F=download-libtorch --workspace
+      - run: cargo test --workspace
 
   clippy:
     runs-on: ubuntu-latest
@@ -37,7 +37,7 @@ jobs:
           path: ~/.cargo/registry/cache/
           key: rust-${{ hashFiles('Cargo.toml') }}
       - uses: mozilla-actions/sccache-action@v0.0.3
-      - run: cargo clippy -F=download-libtorch --workspace
+      - run: cargo clippy --workspace
 
   rustfmt:
     runs-on: ubuntu-latest

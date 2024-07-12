@@ -34,7 +34,7 @@ license.workspace = true
 name = "natural_syntax"
 readme.workspace = true
 repository.workspace = true
-version = "0.0.1"
+version = "0.0.2"
 
 [dependencies]
 num-derive = { workspace = true, optional = true }
@@ -49,8 +49,7 @@ tracing.workspace = true
 tracing-subscriber.workspace = true
 
 [features]
-# FIXME: Do not download libtorch, figure out how to use the system libtorch.
-default = ["num", "serde"]
-num = ["dep:num-derive", "dep:num-traits"]
+default = ["download-libtorch", "num", "serde"]
 download-libtorch = ["rust-bert/download-libtorch"]
+num = ["dep:num-derive", "dep:num-traits"]
 serde = ["dep:serde"]

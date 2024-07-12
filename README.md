@@ -27,7 +27,20 @@ speech (POS) in plain text.
 
     </details>
 1. Install the `natural_syntax_ls` package with Cargo or friends to
-    get the `natural-syntax-ls` binary.
+    get the `natural-syntax-ls` binary:
+
+    ```sh
+    cargo install natural_syntax_ls --default-features=false
+    ```
+
+    Setting the `default-features` to
+    `false` disables downloading `libtorch` (automatic installation).
+
+    <details><summary>Why automatic installation is the default.</summary>
+
+    Because otherwise it would be a pain to run the continuous integration.
+
+    </details>
 
 ## Editor setup
 

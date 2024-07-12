@@ -1,6 +1,6 @@
 [package]
 name = "natural_syntax_ls"
-version = "0.0.0"
+version = "0.0.1"
 description.workspace = true
 edition.workspace = true
 license.workspace = true
@@ -40,3 +40,7 @@ url = "2"
 insta.workspace = true
 tracing.workspace = true
 tracing-subscriber.workspace = true
+
+[features]
+default = ["download-libtorch"]
+download-libtorch = ["natural_syntax/download-libtorch"]
