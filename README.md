@@ -3,6 +3,10 @@
 Natural-Syntax-LS is a language server that highlights different parts of
 speech (POS) in plain text.
 
+| Full highlighting                                                                                     | Partially disabled (via customization)                                                                 |
+| ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| ![Full highlighting](https://github.com/user-attachments/assets/f8937b78-854b-490a-8962-ea076beea235) | ![Partially disabled](https://github.com/user-attachments/assets/86af4cc1-0db4-4f4e-893e-582b9c91e7a5) |
+
 ## Installation
 
 1. Download `libtorch` v2.1 as per
