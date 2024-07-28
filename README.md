@@ -50,17 +50,17 @@ speech (POS) in plain text.
 
 ### ✅ NeoVim setup with LSPConfig
 
-Please paste the below `natural_syntax_ls_setup` function in
-your Nvim configuration and call it with your client's `capabilities`.
+Please paste the below `register_natural_syntax_ls` function in
+your Nvim configuration, call it,
+and set up `natural_syntax_ls` like any other LSPConfig language server.
 [Please see my config for an
-example](https://github.com/SichangHe/.config/blob/b0961205a060d3588f56e97fd066a35424fe64a9/nvim/lua/plugins/lsp.lua#L301).
+example](https://github.com/SichangHe/.config/blob/a01e81bb84dd24ef350882e912d56feb1c3ef9db/nvim/lua/plugins/lsp.lua#L257).
 
 <details><summary>The <code>natural_syntax_ls_setup</code> function.</summary>
 
 ```lua
 local function natural_syntax_ls_setup(capabilities)
-    local lspconfig = require('lspconfig')
-    require('lspconfig.configs')['natural_syntax_ls'] = {
+    require('lspconfig.configs').natural_syntax_ls = {
         default_config = {
             cmd = { 'natural-syntax-ls' },
             filetypes = { 'text' },
@@ -70,23 +70,24 @@ local function natural_syntax_ls_setup(capabilities)
             description = [[The Natural Syntax Language Server for highlighting parts of speech.]],
         },
     }
-    lspconfig['natural_syntax_ls'].setup {
-        capabilities,
-        init_options = {
-            token_map_update = {
-                -- Customize your POS-token mapping here. E.g.:
-                --[[
-                -- Disable coordinating conjunctions highlighting.
-                CC = vim.NIL, -- `nil` does not work because it gets ignored.
-                -- Highlight wh-determiners as enum members without any modifiers.
-                WDT = { type = "enumMember" },
-                -- Highlight determiners as read-only classes.
-                DT = { type = "class", modifiers = { "readonly" } },
-                ]]
-            },
-        },
-    }
 end
+```
+
+You can customize by setting `init_options` when calling the setup function:
+
+```lua
+require('lspconfig')['natural_syntax_ls'].setup {
+    init_options = {
+        token_map_update = { -- Customize your POS-token mapping here. E.g.:
+            -- Disable coordinating conjunctions highlighting.
+            CC = vim.NIL, -- `nil` does not work because it gets ignored.
+            -- Highlight wh-determiners as enum members without any modifiers.
+            WDT = { type = "enumMember" },
+            -- Highlight determiners as read-only classes.
+            DT = { type = "class", modifiers = { "readonly" } },
+        },
+    },
+}
 ```
 
 </details>
