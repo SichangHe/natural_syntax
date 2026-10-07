@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { spawnSync } from 'node:child_process';
 import { createPOSModel } from './index.js';
+import { semanticTokens, tokenMap } from './tokens.js';
 
 test('real MobileBERT tags, Unicode offsets, and complete long documents', { timeout: 300_000 }, async () => {
     const loaded = await createPOSModel();
@@ -43,4 +44,16 @@ test('CLI accepts stdin and reports usage without loading the model', { timeout:
     const tagged = spawnSync(process.execPath, ['cli.js'], { cwd, input: 'Dogs run.', encoding: 'utf8', timeout: 290_000 });
     assert.equal(tagged.status, 0, tagged.stderr);
     assert.deepEqual(JSON.parse(tagged.stdout).map(token => token.word), ['Dogs', 'run', '.']);
+});
+
+test('semantic tokens use UTF-16 positions, filter punctuation, and follow the token map', () => {
+    const words = [['😀', 0], ['The', 2], ['birds', 6], ['.', 11], ['sing', 16]].map(([word, offset_begin]) =>
+        ({ word, offset_begin, tag: word === 'The' ? 'DT' : 'NN', score: word === 'birds' ? 0.3 : 1 }));
+    const text = '😀 The birds.\r\n😀 sing';
+    assert.deepEqual(semanticTokens(text, words, tokenMap().value),
+        [0, 0, 2, 7, 0, 0, 3, 3, 18, 256, 1, 3, 4, 7, 0]);
+    const updated = tokenMap({ NN: null, DT: { type: 'class', modifiers: ['readonly'] } });
+    assert.deepEqual(semanticTokens(text, words, updated.value), [0, 3, 3, 2, 4]);
+    assert.equal(tokenMap({ DT: { type: 'nope' } }).ok, false);
+    assert.equal(tokenMap({ XX: null }).ok, false);
 });

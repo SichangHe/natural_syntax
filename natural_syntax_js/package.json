@@ -1,11 +1,11 @@
 {
   "name": "natural-syntax",
   "version": "0.1.0",
-  "description": "Word-level English part-of-speech tagging with MobileBERT",
+  "description": "Natural language syntax highlighting: English part-of-speech tagging and language server",
   "type": "module",
   "exports": "./index.js",
-  "bin": { "natural-syntax": "./cli.js" },
-  "files": ["index.js", "cli.js", "README.md", "design.md"],
+  "bin": { "natural-syntax": "./cli.js", "natural-syntax-ls-js": "./server.js" },
+  "files": ["index.js", "cli.js", "server.js", "tokens.js", "README.md", "design.md"],
   "engines": { "node": ">=20" },
   "scripts": { "test": "node --test test.js" },
   "dependencies": { "@huggingface/transformers": "4.3.1" }
