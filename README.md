@@ -10,11 +10,10 @@ speech (POS) in plain text.
 
 ## Installation
 
-🤖 In a checkout containing the ONNX implementation, install with a current
-stable Rust toolchain (Rust 1.91 or newer) and its platform linker:
+🤖 Install with a current stable Rust toolchain (Rust 1.91 or newer):
 
 ```sh
-cargo install --path natural_syntax_ls
+cargo install --git https://github.com/SichangHe/natural_syntax natural_syntax_ls
 ```
 
 🤖 The older crates.io release still needs libtorch. This implementation runs ONNX
@@ -25,7 +24,8 @@ MobileBERT model files from Hugging Face. Subsequent launches reuse the local
 cache. Allow the first launch to finish before requesting highlighting.
 The model cache follows `HF_HOME`, defaulting to `~/.cache/huggingface`.
 
-🤖 A JavaScript implementation is available in
+🤖 Without Rust, `npm install -g ./natural_syntax_js` installs the equivalent
+JavaScript language server `natural-syntax-ls-js`; see
 [natural_syntax_js](natural_syntax_js/README.md).
 
 ## Editor setup
@@ -91,22 +91,26 @@ Customizations:
         `TokenModifier` in [`semantic_tokens.rs`][semantic_tokens.rs],
         all in camelCase.
 
-### ❓ Visual Studio Code and other editor setup
+### 🤖 Visual Studio Code setup
 
-<details>
-<summary>No official support, but community plugins are welcome.</summary>
+🤖 Build and install the extension in [editors/vscode](editors/vscode):
 
-I do not currently use VSCode and these other editors,
-so I do not wish to maintain plugins for them.
+```sh
+cd editors/vscode
+npm install
+npm run package
+code --install-extension natural-syntax-ls-0.0.1.vsix
+```
 
-However,
-it should be straightforward to implement plugins for them since
+🤖 It starts `natural-syntax-ls` for plain text files.
+The settings `naturalSyntaxLs.serverPath` and `naturalSyntaxLs.tokenMapUpdate`
+choose the server command and customize highlighting.
+
+### ❓ Other editor setup
+
+Community plugins are welcome:
+it should be straightforward to implement plugins since
 Natural-Syntax-LS implements the Language Server Protocol (LSP).
-So,
-please feel free to make a plugin yourself and create an issue for me to
-link it here.
-
-</details>
 
 ## Selected specification
 
