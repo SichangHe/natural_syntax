@@ -16,7 +16,7 @@ fn paragraph_pos() {
     let start = Instant::now();
     let output = model.predict(input);
     info!("Took {}ms to predict.", start.elapsed().as_millis());
-    let mut parsed = output.collect::<Result<Vec<_>, _>>().unwrap();
+    let mut parsed = output.unwrap();
     round_scores(&mut parsed);
     assert_debug_snapshot!(parsed);
 }
@@ -40,12 +40,40 @@ fn markdown_pos() {
     let start = Instant::now();
     let output = model.predict(input);
     info!("Took {}ms to predict.", start.elapsed().as_millis());
-    let mut parsed = output.collect::<Result<Vec<_>, _>>().unwrap();
+    let mut parsed = output.unwrap();
     round_scores(&mut parsed);
     assert_debug_snapshot!(parsed);
 }
 
 const PRECISION: f64 = 1e-3;
+
+#[test]
+fn empty_unicode_and_long_text() -> Result<(), POSModelError> {
+    let model = POSModel::try_default()?;
+    assert!(model.predict("")?.is_empty());
+    let input = format!(
+        "😀 Café naïve birds fly.\r\n{}",
+        "The birds fly. ".repeat(140)
+    );
+    let chars: Vec<_> = input.chars().collect();
+    let tokens = model.predict(&input)?;
+    assert!(tokens.len() > MAX_N_TOKEN);
+    let mut end = 0;
+    for token in &tokens {
+        assert!(token.offset_begin >= end);
+        assert!(token.offset_end > token.offset_begin);
+        assert_eq!(
+            chars[token.offset_begin as usize..token.offset_end as usize]
+                .iter()
+                .collect::<String>(),
+            token.word
+        );
+        assert!((0.0..=1.0).contains(&token.score));
+        end = token.offset_end;
+    }
+    assert_eq!(tokens.last().map(|token| token.word.as_str()), Some("."));
+    Ok(())
+}
 
 fn round_scores(predictions: &mut [POSToken]) {
     predictions

@@ -40,6 +40,29 @@ fn dummy_token(word: &str, score: f64) -> POSToken {
 }
 
 #[test]
+fn utf16_semantic_positions() {
+    let text = Rope::from_str("😀 The birds\r\n😀 sing");
+    let tokens = [
+        ("😀", 0, 1),
+        ("The", 2, 5),
+        ("birds", 6, 11),
+        ("sing", 15, 19),
+    ]
+    .map(|(word, offset_begin, offset_end)| POSToken {
+        word: word.into(),
+        score: 1.,
+        tag: PartOfSpeech::NN,
+        offset_begin,
+        offset_end,
+    });
+    let positions = semantic_tokens(&text, &tokens, &TokenMap::default())
+        .into_iter()
+        .map(|token| (token.delta_line, token.delta_start, token.length))
+        .collect::<Vec<_>>();
+    assert_eq!(positions, [(0, 0, 2), (0, 3, 3), (0, 4, 5), (1, 3, 4)]);
+}
+
+#[test]
 fn convert_tokens() {
     init_tracing();
     let start = Instant::now();
@@ -58,10 +81,8 @@ fn convert_tokens() {
     let start = Instant::now();
     let output = model.predict(input);
     info!("Took {}ms to predict.", start.elapsed().as_millis());
-    let mut tokens = output
-        .map(|r| r.unwrap())
-        .filter(filter_token)
-        .collect::<Vec<_>>();
+    let mut tokens = output.unwrap();
+    tokens.retain(filter_token);
     round_scores(&mut tokens);
     let text = Rope::from_str(input);
     let semantic_tokens = semantic_tokens(&text, &tokens, &Default::default());

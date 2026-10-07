@@ -1,53 +1,151 @@
-use std::str::FromStr;
+use std::{iter::zip, str::FromStr};
 
-use num_derive::{FromPrimitive, ToPrimitive};
-use rust_bert::{
-    pipelines::{
-        pos_tagging::POSConfig,
-        token_classification::{Token, TokenClassificationModel},
-    },
-    RustBertError,
+use hf_hub::{
+    api::sync::{ApiBuilder, ApiError},
+    Repo, RepoType,
 };
+#[cfg(feature = "num")]
+use num_derive::{FromPrimitive, ToPrimitive};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
+use tokenizers::{Encoding, Tokenizer};
+use tract_onnx::prelude::*;
+
+/// ONNX export of MobileBERT fine-tuned for part-of-speech tagging,
+/// downloaded from Hugging Face on first use.
+pub const MODEL_REPO: &str = "onnx-community/mobilebert-finetuned-pos-ONNX";
+/// Pinned so that [`LABELS`] and the snapshots stay valid.
+pub const MODEL_REVISION: &str = "5b7653c4e2078ca6e6a7fd099c1f558eb066315b";
+const MODEL_FILE: &str = "onnx/model.onnx";
+/// `id2label` of the model, from
+/// <https://huggingface.co/onnx-community/mobilebert-finetuned-pos-ONNX/blob/main/config.json>.
+const LABELS: [PartOfSpeech; N_PART_OF_SPEECH as usize] = {
+    use PartOfSpeech::*;
+    [
+        O, CC, CD, DT, EX, FW, IN, JJ, JJR, JJS, MD, NN, NNP, NNPS, NNS, PDT, POS, PRP, RB, RBR,
+        RBS, RP, SYM, TO, UH, VB, VBD, VBG, VBN, VBP, VBZ, WDT, WP, WRB,
+    ]
+};
+/// `max_position_embeddings` of the model.
+const MAX_N_TOKEN: usize = 512;
+const CLS_ID: i64 = 101;
+const SEP_ID: i64 = 102;
 
 /// Part-of-speech tagging model.
+// 🧑 “fix natural_syntax_ls. It’s currently hard to install.”
 pub struct POSModel {
-    pub model: TokenClassificationModel,
+    tokenizer: Tokenizer,
+    model: Arc<TypedRunnableModel>,
 }
-
-/// Iterator over the result of a POSModel prediction.
-/// Implements `Iter<Item = Result<POSToken, PartOfSpeechError>>`.
-pub type POSTokenResultIter = std::iter::Map<
-    std::vec::IntoIter<Token>,
-    fn(Token) -> Result<POSToken, <POSToken as TryFrom<Token>>::Error>,
->;
 
 impl POSModel {
-    pub fn try_default() -> Result<Self, RustBertError> {
-        let model = TokenClassificationModel::new(POSConfig::default().into())?;
-        Ok(Self { model })
+    pub fn try_default() -> Result<Self, POSModelError> {
+        let repo = ApiBuilder::from_env()
+            .with_progress(false)
+            .build()?
+            .repo(Repo::with_revision(
+                MODEL_REPO.into(),
+                RepoType::Model,
+                MODEL_REVISION.into(),
+            ));
+        let tokenizer = Tokenizer::from_file(repo.get("tokenizer.json")?)?;
+        let model = tract_onnx::onnx()
+            .model_for_path(repo.get(MODEL_FILE)?)?
+            .into_optimized()?
+            .into_runnable()?;
+        Ok(Self { tokenizer, model })
     }
 
-    /// Predict [`POSToken`]s for `input`.
-    pub fn predict(&self, input: &str) -> POSTokenResultIter {
-        let mut token_vecs = self.model.predict(&[input], true, false);
-        debug_assert_eq!(1, token_vecs.len());
-        token_vecs
-            .pop()
-            .unwrap()
+    /// Predict [`POSToken`]s for `input`, one per word.
+    pub fn predict(&self, input: &str) -> Result<Vec<POSToken>, POSModelError> {
+        let encoding = self.tokenizer.encode(input, false)?;
+        let mut predictions = Vec::with_capacity(encoding.len());
+        for ids in encoding.get_ids().chunks(MAX_N_TOKEN - 2) {
+            predictions.extend(self.classify(ids)?);
+        }
+        Ok(words(input, &encoding, &predictions))
+    }
+
+    /// Most likely part of speech and its confidence score for
+    /// each of the token `ids`.
+    fn classify(&self, ids: &[u32]) -> TractResult<Vec<(PartOfSpeech, f64)>> {
+        let n_token = ids.len() + 2;
+        let ids = [CLS_ID]
             .into_iter()
-            .map(POSToken::try_from)
+            .chain(ids.iter().map(|&id| id as i64))
+            .chain([SEP_ID])
+            .collect::<Vec<_>>();
+        let inputs = tvec![
+            tensor1(&ids),
+            tensor1(&vec![1i64; n_token]),
+            tensor1(&vec![0i64; n_token]),
+        ]
+        .into_iter()
+        .map(|tensor| Ok(tensor.into_shape(&[1, n_token])?.into()))
+        .collect::<TractResult<TVec<TValue>>>()?;
+        let outputs = self.model.run(inputs)?;
+        let logits = outputs[0].to_plain_array_view::<f32>()?;
+        Ok(logits
+            .rows()
+            .into_iter()
+            .skip(1)
+            .take(n_token - 2)
+            .map(|row| {
+                let (i_max, max) = zip(0.., row)
+                    .max_by(|(_, a), (_, b)| a.total_cmp(b))
+                    .expect("The model outputs one logit per label.");
+                let sum = row.iter().map(|logit| (logit - max).exp()).sum::<f32>();
+                (LABELS[i_max], 1. / sum as f64)
+            })
+            .collect())
     }
 }
 
-// SAFETY: We only read `model`, and do not alias any pointers.
-unsafe impl Send for POSModel {}
-unsafe impl Sync for POSModel {}
+/// Merge the sub-word tokens in `encoding` of `input` into words,
+/// each tagged with the prediction of its first token.
+fn words(input: &str, encoding: &Encoding, predictions: &[(PartOfSpeech, f64)]) -> Vec<POSToken> {
+    let mut byte_words: Vec<(usize, usize, PartOfSpeech, f64)> = Vec::new();
+    let mut prev_word_id = None;
+    for ((word_id, &(begin, end)), &(tag, score)) in zip(
+        zip(encoding.get_word_ids(), encoding.get_offsets()),
+        predictions,
+    ) {
+        match byte_words.last_mut() {
+            Some(word) if *word_id == prev_word_id => word.1 = end,
+            _ => byte_words.push((begin, end, tag, score)),
+        }
+        prev_word_id = *word_id;
+    }
+    let (mut i_byte, mut i_char) = (0, 0);
+    byte_words
+        .into_iter()
+        .map(|(begin, end, tag, score)| {
+            let word = &input[begin..end];
+            i_char += input[i_byte..begin].chars().count() as u32;
+            i_byte = begin;
+            POSToken {
+                word: word.into(),
+                score,
+                tag,
+                offset_begin: i_char,
+                offset_end: i_char + word.chars().count() as u32,
+            }
+        })
+        .collect()
+}
 
-/// Parsed Token generated by a `TokenClassificationModel`
-/// Adapted from `rust-bert`'s `Token` struct.
+#[derive(Debug, Error)]
+pub enum POSModelError {
+    #[error("Downloading the model: {0}")]
+    Download(#[from] ApiError),
+    #[error("Tokenizing: {0}")]
+    Tokenizer(#[from] tokenizers::Error),
+    #[error("Running the model: {0}")]
+    Model(#[from] TractError),
+}
+
+/// A word tagged with its part of speech.
 #[derive(Clone, Debug, Default, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub struct POSToken {
@@ -57,12 +155,6 @@ pub struct POSToken {
     pub score: f64,
     /// Part-of-speech tag
     pub tag: PartOfSpeech,
-    /// Label index
-    pub label_index: i64,
-    /// Token position index
-    pub index: u16,
-    /// Token word position index
-    pub word_index: u16,
     /// Token offset beginning (in unicode points) relative to the input string
     pub offset_begin: u32,
     /// Token offset end (in unicode points) relative to the input string
@@ -72,37 +164,6 @@ pub struct POSToken {
 impl POSToken {
     pub fn tag_with_confidence(&self, confidence: f64) -> Option<PartOfSpeech> {
         (self.score > confidence).then_some(self.tag)
-    }
-}
-
-impl TryFrom<Token> for POSToken {
-    type Error = PartOfSpeechError;
-
-    fn try_from(value: Token) -> Result<Self, Self::Error> {
-        let Token {
-            text,
-            score,
-            label,
-            label_index,
-            sentence: _inaccurate_so_useless,
-            index,
-            word_index,
-            offset,
-            mask: _we_do_not_care,
-        } = value;
-        match offset {
-            Some(offset) => Ok(Self {
-                word: text,
-                score,
-                tag: label.parse()?,
-                label_index,
-                index,
-                word_index,
-                offset_begin: offset.begin,
-                offset_end: offset.end,
-            }),
-            None => Err(PartOfSpeechError::MissingOffset(text)),
-        }
     }
 }
 
@@ -234,8 +295,6 @@ impl FromStr for PartOfSpeech {
 pub enum PartOfSpeechError {
     #[error("Unknown part of speech label `{0}`")]
     UnknownLabel(String),
-    #[error("Token `{0}` without offset is ignored")]
-    MissingOffset(String),
 }
 
 #[cfg(test)]

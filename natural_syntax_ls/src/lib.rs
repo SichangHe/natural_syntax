@@ -61,18 +61,14 @@ impl POSLS {
 
 fn predict(model: Arc<POSModel>, item: TextItem, actor_ref: ActorRef<DocumentRegistry>) {
     debug!(uri = item.uri.path(), item.version, "Predicting.");
-    let mut tokens = model
-        .predict(&item.text)
-        .filter_map(|maybe_token| match maybe_token {
-            Ok(token) => Some(token),
-            Err(err) => {
-                error!(?err, ?item.uri, "Tagging text.");
-                None
-            }
-        })
-        .filter(filter_token)
-        .collect::<Vec<_>>();
-    tokens.sort_by_key(|token| token.offset_begin);
+    let mut tokens = match model.predict(&item.text) {
+        Ok(tokens) => tokens,
+        Err(err) => {
+            error!(?err, ?item.uri, "Tagging text.");
+            Vec::new()
+        }
+    };
+    tokens.retain(filter_token);
     let document = Document {
         text: Rope::from_str(&item.text),
         tokens,
@@ -211,10 +207,12 @@ fn semantic_tokens(
                 let relative_i_char = token.offset_begin - i_prev_start;
                 let relative_i_line = slice.char_to_line(relative_i_char as usize);
                 let delta_start = match relative_i_line {
-                    0 => relative_i_char,
+                    0 => slice.char_to_utf16_cu(relative_i_char as usize) as u32,
                     _ => {
                         let i_1st_char_of_line = slice.line_to_char(relative_i_line);
-                        relative_i_char - i_1st_char_of_line as u32
+                        (slice.char_to_utf16_cu(relative_i_char as usize)
+                            - slice.char_to_utf16_cu(i_1st_char_of_line))
+                            as u32
                     }
                 };
                 i_prev_start = token.offset_begin;
@@ -222,7 +220,9 @@ fn semantic_tokens(
                 SemanticToken {
                     delta_line: relative_i_line as u32,
                     delta_start,
-                    length: token.offset_end - token.offset_begin,
+                    length: (text.char_to_utf16_cu(token.offset_end as usize)
+                        - text.char_to_utf16_cu(token.offset_begin as usize))
+                        as u32,
                     token_type,
                     token_modifiers_bitset,
                 }

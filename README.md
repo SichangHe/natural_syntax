@@ -1,4 +1,5 @@
 # Natural Language Syntax Highlighting
+(authored by human unless marked 🤖)
 
 Natural-Syntax-LS is a language server that highlights different parts of
 speech (POS) in plain text.
@@ -9,42 +10,23 @@ speech (POS) in plain text.
 
 ## Installation
 
-1. Download `libtorch` v2.1 as per
-    [Rust-BERT's documentation][download-torch].
-    <details><summary>Tips.</summary>
+🤖 In a checkout containing the ONNX implementation, install with a current
+stable Rust toolchain (Rust 1.91 or newer) and its platform linker:
 
-    You can figure out the URL to download `libtorch` [in tch-rs' build
-    script](https://github.com/LaurentMazare/tch-rs/blob/5480d6fd4be12e748e0d87555db54a5f6e74edf2/torch-sys/build.rs#L311).
-    The `LIBTORCH` variable should be the `torch/` directory.
+```sh
+cargo install --path natural_syntax_ls
+```
 
-    </details>
-    <details><summary>Why automatic installation does not work.</summary>
+🤖 The older crates.io release still needs libtorch. This implementation runs ONNX
+in Rust and requires no libtorch download or library-path configuration.
 
-    Rust-BERT has an "automatic installation" option that
-    uses tch-rs' build script to download `libtorch`.
-    However,
-    the binary produced this way does not run because that `libtorch` is not on
-    `LD_LIBRARY_PATH`.
-    Alternatively, you could statically link `libtorch`,
-    but that would
-    [require you to download `libtorch` yourself][tch-static-linking] anyway.
+🤖 On first launch, the server downloads approximately 100 MB of English
+MobileBERT model files from Hugging Face. Subsequent launches reuse the local
+cache. Allow the first launch to finish before requesting highlighting.
+The model cache follows `HF_HOME`, defaulting to `~/.cache/huggingface`.
 
-    </details>
-1. Install the `natural_syntax_ls` package with Cargo or friends to
-    get the `natural-syntax-ls` binary:
-
-    ```sh
-    cargo install natural_syntax_ls --no-default-features
-    ```
-
-    Setting `--no-default-features` disables downloading `libtorch`
-    (automatic installation).
-
-    <details><summary>Why automatic installation is the default.</summary>
-
-    Because otherwise it would be a pain to run the continuous integration.
-
-    </details>
+🤖 A JavaScript implementation is available in
+[natural_syntax_js](natural_syntax_js/README.md).
 
 ## Editor setup
 
@@ -141,7 +123,7 @@ We use `tracing-subscriber` with the `env-filter` feature to
 emit logs[^tracing-env-filter].
 Please configure the log level by setting the `RUST_LOG` environment variable.
 
-On macOS, you may need to set `DYLD_LIBRARY_PATH` to run the tests.
+🤖 The ONNX implementation requires no `DYLD_LIBRARY_PATH` setting.
 
 ## Future work
 
@@ -152,6 +134,4 @@ On macOS, you may need to set `DYLD_LIBRARY_PATH` to run the tests.
 
 [^tracing-env-filter]: <https://docs.rs/tracing-subscriber/latest/tracing_subscriber/#feature-flags>
 
-[download-torch]: https://docs.rs/rust-bert/0.22.0/rust_bert/#manual-installation-recommended
 [semantic_tokens.rs]: https://github.com/SichangHe/natural_syntax/blob/main/natural_syntax_ls/src/semantic_tokens.rs
-[tch-static-linking]: https://github.com/LaurentMazare/tch-rs/tree/v2.1?tab=readme-ov-file#static-linking

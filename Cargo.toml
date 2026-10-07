@@ -7,6 +7,7 @@ edition = "2021"
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/SichangHe/natural_syntax"
+rust-version = "1.91"
 
 [workspace.dependencies]
 anyhow = "1"
@@ -34,14 +35,19 @@ license.workspace = true
 name = "natural_syntax"
 readme.workspace = true
 repository.workspace = true
+rust-version.workspace = true
 version = "0.0.2"
 
 [dependencies]
 num-derive = { workspace = true, optional = true }
 num-traits = { workspace = true, optional = true }
-rust-bert = "0.22"
+hf-hub = { version = "0.4", default-features = false, features = ["ureq"] }
 serde = { workspace = true, optional = true }
 thiserror = "1.0.61"
+tokenizers = { version = "0.22", default-features = false, features = [
+    "fancy-regex",
+] }
+tract-onnx = "0.23"
 
 [dev-dependencies]
 insta.workspace = true
@@ -49,7 +55,6 @@ tracing.workspace = true
 tracing-subscriber.workspace = true
 
 [features]
-default = ["download-libtorch", "num", "serde"]
-download-libtorch = ["rust-bert/download-libtorch"]
+default = ["num", "serde"]
 num = ["dep:num-derive", "dep:num-traits"]
 serde = ["dep:serde"]
