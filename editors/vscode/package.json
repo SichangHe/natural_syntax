@@ -1,0 +1,79 @@
+{
+    "name": "natural-syntax-ls",
+    "displayName": "Natural Syntax LS",
+    "description": "Natural language syntax highlighting.",
+    "version": "0.0.1",
+    "publisher": "SichangHe",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SichangHe/natural_syntax"
+    },
+    "engines": {
+        "vscode": "^1.91.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "main": "dist/extension.js",
+    "activationEvents": [
+        "onLanguage:plaintext"
+    ],
+    "contributes": {
+        "configuration": {
+            "title": "Natural Syntax LS",
+            "properties": {
+                "naturalSyntaxLs.serverPath": {
+                    "type": "string",
+                    "default": "natural-syntax-ls",
+                    "scope": "machine-overridable",
+                    "description": "Command or path of the `natural-syntax-ls` binary. Reload the window after changing."
+                },
+                "naturalSyntaxLs.tokenMapUpdate": {
+                    "type": "object",
+                    "default": {},
+                    "additionalProperties": {
+                        "type": [
+                            "object",
+                            "null"
+                        ],
+                        "required": [
+                            "type"
+                        ],
+                        "properties": {
+                            "type": {
+                                "type": "string"
+                            },
+                            "modifiers": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "markdownDescription": "Part of speech tag → semantic token `{\"type\": …, \"modifiers\": […]}`, or `null` to disable highlighting that tag; sent as the `token_map_update` initialization option. E.g. `{\"CC\": null, \"DT\": {\"type\": \"class\", \"modifiers\": [\"readonly\"]}}`. Reload the window after changing."
+                }
+            }
+        },
+        "configurationDefaults": {
+            "[plaintext]": {
+                "editor.semanticHighlighting.enabled": true
+            }
+        }
+    },
+    "scripts": {
+        "build": "esbuild src/extension.js --bundle --platform=node --format=cjs --external:vscode --minify --outfile=dist/extension.js",
+        "vscode:prepublish": "npm run build",
+        "package": "vsce package --no-dependencies --skip-license",
+        "test": "npm run package && node test/run.js"
+    },
+    "dependencies": {
+        "vscode-languageclient": "^9.0.1"
+    },
+    "devDependencies": {
+        "@vscode/test-electron": "^2.5.2",
+        "@vscode/vsce": "^3.6.0",
+        "esbuild": "^0.25.0"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "name": "empty-extension",
+    "description": "Placeholder development extension so the test host loads only the installed `.vsix`.",
+    "version": "0.0.0",
+    "publisher": "test",
+    "engines": {
+        "vscode": "*"
+    }
+}

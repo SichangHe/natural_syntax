@@ -143,3 +143,6 @@
 **.mkv
 **.mov
 **.mp4
+# VS Code extension
+**/.vscode-test/
+**.vsix
