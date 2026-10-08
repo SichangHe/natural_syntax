@@ -1,0 +1,10 @@
+# 🧑 "Handle the routed notification: ... Run failed: Release-plz - main (81c14f6)"
+# Published libtorch baselines cannot build with current dependencies.
+# The ONNX migration declares its API break with a `feat!` commit.
+[[package]]
+name = "natural_syntax"
+semver_check = false
+
+[[package]]
+name = "natural_syntax_ls"
+semver_check = false
