@@ -25,6 +25,7 @@
 - JavaScript
   - see `natural_syntax_js/README.md`
 - release
+  - versions and changelogs are committed to main; CI publishes those versions without creating release branches
   - `release-plz.toml` skips API comparison against published libtorch versions whose dependencies no longer compile
   - the ONNX migration's `feat!` commit records the API break for version selection
   - restore API comparison after both published baselines use ONNX
