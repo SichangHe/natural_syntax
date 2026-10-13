@@ -1,4 +1,6 @@
 {
+  "name": "@sichanghe/natural-syntax",
+  "version": "0.1.0",
   "imports": {
     "@huggingface/transformers": "npm:@huggingface/transformers@4.3.1"
   }
