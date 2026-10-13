@@ -4,14 +4,14 @@ export const MODEL_REPO = 'onnx-community/mobilebert-finetuned-pos-ONNX';
 export const MODEL_REVISION = '5b7653c4e2078ca6e6a7fd099c1f558eb066315b';
 const WORDS = /\[(?:MASK|CLS|SEP|UNK|PAD)\]|[\p{P}\p{Script=Han}\x21-\x2f\x3a-\x40\x5b-\x60\x7b-\x7e]|[^\s\p{P}\p{Script=Han}\x21-\x2f\x3a-\x40\x5b-\x60\x7b-\x7e]+/gu;
 
-// 🧑 “And make a JS version of the idea.”
+// 🧑 “the JS version should run in the browser instead of node”
 /** Load the pinned model. Returns `{ok: true, value}` or `{ok: false, error}`. */
 export async function createPOSModel({ cache_dir, local_files_only = false } = {}) {
     try {
         const options = { revision: MODEL_REVISION, cache_dir, local_files_only };
         const tokenizer = await AutoTokenizer.from_pretrained(MODEL_REPO, options);
         const model = await BertForTokenClassification.from_pretrained(MODEL_REPO, {
-            ...options, dtype: 'fp32', device: 'cpu',
+            ...options, dtype: 'fp32',
         });
         return { ok: true, value: {
             /** Predict words with code-point offsets; retain the first subword's label. */

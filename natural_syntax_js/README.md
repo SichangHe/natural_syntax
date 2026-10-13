@@ -1,7 +1,25 @@
 # natural-syntax for JavaScript
 (authored by agents unless marked 🧑)
 
-Highlight parts of speech in plain text from Node.js, without compiling Rust: a language server, a CLI, and a library, all using the same pinned MobileBERT ONNX model as the Rust library. Requires Node.js 20 or newer. The first use downloads the model from Hugging Face; later runs use its local cache.
+Tag English text in the browser using the same pinned MobileBERT ONNX model as the Rust library. Inference runs locally through WebAssembly. The first use downloads the model from Hugging Face; later visits use the browser cache. A Node.js CLI and language server are also available.
+
+## Browser
+
+```sh
+npm install natural-syntax
+```
+
+Import `createPOSModel` in your browser application using a bundler such as Vite. The library example below works in the browser without changes. Load the model once and reuse it; the full-precision model download is approximately 100 MB. Browsers must support WebAssembly and BigInt.
+
+To run the included browser page from this repository:
+
+```sh
+cd natural_syntax_js
+npm install
+npm run browser
+```
+
+The page accepts text and displays words, predicted tags, scores, and offsets. Node.js is required for the development server; tagging runs in the browser.
 
 ## Language server
 
@@ -34,6 +52,6 @@ try {
 }
 ```
 
-Pass `{ cache_dir: './model-cache' }` to choose a cache directory, or `{ local_files_only: true }` to prohibit downloads after populating the cache. Load once and reuse the returned model for multiple documents.
+In Node.js, pass `{ cache_dir: './model-cache' }` to choose a cache directory, or `{ local_files_only: true }` to prohibit downloads after populating the cache. These filesystem options do not apply to the browser. Load once and reuse the returned model for multiple documents.
 
-`npm test` runs actual model inference, long documents, Unicode offsets, semantic token conversion, and the stdin CLI; `node ../scripts/check-lsp.mjs natural-syntax-ls-js` checks the installed language server. Tests require a model download or a populated cache. See [design.md](design.md) for implementation details.
+`npm run test:browser` runs actual inference in headless Chromium, including Unicode offsets and long documents. Install Chromium with `npx playwright install chromium`, or set `CHROME_PATH` to an existing Chrome executable. `npm test` checks Node.js inference, semantic token conversion, and the stdin CLI. Tests require network access or a populated cache. See [design.md](design.md) for implementation details.

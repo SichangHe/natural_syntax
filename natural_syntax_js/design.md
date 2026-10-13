@@ -2,7 +2,9 @@
 (authored by agents unless marked 🧑)
 
 tag English text without compiling Rust
-- Transformers.js loads the pinned MobileBERT ONNX graph at full precision on CPU
+- Transformers.js loads the pinned MobileBERT ONNX graph at full precision
+  - use the runtime's default device: WebAssembly in browsers, CPU in Node.js
+  - browser model files use the browser cache; Node.js uses a filesystem cache
   - `BertForTokenClassification` supplies the matching three-input ONNX runner
   - the automatic token-classification factory does not register MobileBERT in Transformers.js 4.3.1
 - split input at whitespace, punctuation, ASCII symbols, and Han characters
@@ -30,6 +32,8 @@ language server `server.js`
 - model load failure exits with status 1
 
 validation
+- `browser.html` and `browser.js` provide a Vite-served browser application
+- `test-browser.js` runs that application in Chromium and checks actual WebAssembly inference
 - `test.js` runs the actual pinned graph
 - check familiar English tags, punctuation, multi-subword words, Unicode source spans, and text beyond one model window
 - exercise stdin and help through the CLI process

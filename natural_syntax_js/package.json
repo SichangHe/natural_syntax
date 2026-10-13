@@ -1,12 +1,15 @@
 {
   "name": "natural-syntax",
   "version": "0.1.0",
-  "description": "Natural language syntax highlighting: English part-of-speech tagging and language server",
+  "description": "English part-of-speech tagging in the browser with WebAssembly, plus a Node.js CLI and language server",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "git+https://github.com/SichangHe/natural_syntax.git", "directory": "natural_syntax_js" },
   "type": "module",
   "exports": "./index.js",
   "bin": { "natural-syntax": "./cli.js", "natural-syntax-ls-js": "./server.js" },
-  "files": ["index.js", "cli.js", "server.js", "tokens.js", "README.md", "design.md"],
+  "files": ["index.js", "cli.js", "server.js", "tokens.js", "browser.html", "browser.js", "README.md", "design.md"],
   "engines": { "node": ">=20" },
-  "scripts": { "test": "node --test test.js" },
-  "dependencies": { "@huggingface/transformers": "4.3.1" }
+  "scripts": { "test": "node --test test.js", "test:browser": "node test-browser.js", "browser": "vite --open /browser.html" },
+  "dependencies": { "@huggingface/transformers": "4.3.1" },
+  "devDependencies": { "playwright": "1.64.0", "vite": "8.3.4" }
 }

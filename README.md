@@ -28,6 +28,9 @@ The model cache follows `HF_HOME`, defaulting to `~/.cache/huggingface`.
 JavaScript language server `natural-syntax-ls-js`; see
 [natural_syntax_js](natural_syntax_js/README.md).
 
+🤖 The JavaScript library also runs model inference in browsers through
+WebAssembly. See the [browser example](natural_syntax_js/README.md#browser).
+
 ## Editor setup
 
 ### ✅ NeoVim setup with LSPConfig

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Natural Syntax</title>
+<link rel="icon" href="data:,">
+<h1>Natural Syntax</h1>
+<p>Tag English words with their parts of speech. The first use downloads the model.</p>
+<form>
+  <label for="text">English text</label><br>
+  <textarea id="text" rows="5" cols="60">The quick brown fox jumps over the lazy dog.</textarea><br>
+  <button disabled>Tag text</button>
+</form>
+<p id="status" role="status">Loading model…</p>
+<pre id="result"></pre>
+<script type="module" src="/browser.js"></script>
+</html>
