@@ -1,6 +1,7 @@
 {
   "name": "@sichanghe/natural-syntax",
   "version": "0.1.0",
+  "license": "MIT",
   "exports": {
     ".": "./natural_syntax_js/index.js",
     "./browser": "./natural_syntax_js/browser.js"
