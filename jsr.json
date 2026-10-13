@@ -1,0 +1,11 @@
+{
+  "name": "@sichanghe/natural-syntax",
+  "version": "0.1.0",
+  "exports": {
+    ".": "./natural_syntax_js/index.js",
+    "./browser": "./natural_syntax_js/browser.js"
+  },
+  "publish": {
+    "exclude": ["natural_syntax_js/test.js", "natural_syntax_js/test-browser.js"]
+  }
+}
