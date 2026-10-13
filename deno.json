@@ -1,6 +1,10 @@
 {
   "name": "@sichanghe/natural-syntax",
   "version": "0.1.0",
+  "exports": {
+    ".": "./natural_syntax_js/index.js",
+    "./browser": "./natural_syntax_js/browser.js"
+  },
   "imports": {
     "@huggingface/transformers": "npm:@huggingface/transformers@4.3.1"
   }
