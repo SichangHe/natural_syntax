@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "@huggingface/transformers": "npm:@huggingface/transformers@4.3.1"
+  }
+}
