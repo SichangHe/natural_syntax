@@ -6,14 +6,19 @@ on:
 
 permissions:
   contents: read
-  id-token: write
+  packages: write
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: denoland/setup-deno@v1
+      - uses: actions/setup-node@v4
         with:
-          deno-version: v2.x
-      - run: deno publish --allow-slow-types
+          node-version: 20
+          registry-url: https://npm.pkg.github.com
+          scope: '@sichanghe'
+      - run: npm publish
+        working-directory: natural_syntax_js
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

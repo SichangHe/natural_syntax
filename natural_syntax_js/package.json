@@ -1,5 +1,5 @@
 {
-  "name": "natural-syntax",
+  "name": "@sichanghe/natural-syntax",
   "version": "0.1.0",
   "description": "English part-of-speech tagging in the browser with WebAssembly, plus a Node.js CLI and language server",
   "license": "MIT",
